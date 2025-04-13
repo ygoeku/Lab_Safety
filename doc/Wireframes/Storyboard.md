@@ -1,5 +1,6 @@
 # 📱 Storyboard
 
-![Storyboard](Storyboard_final.jpg)
+![Storyboard](Storyboard_final.png)
+
 
 
