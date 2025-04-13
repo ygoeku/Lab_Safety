@@ -2,7 +2,6 @@
 
 ## 📌 Allgemeine Informationen
 **Name:** Max Muster
- 
 **Alter:** 34 Jahre  
 **Wohnort:** Zürich  
 **Beruf:** Mikrobiologe in einem Forschungslabor  
