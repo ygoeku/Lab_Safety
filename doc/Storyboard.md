@@ -2,6 +2,6 @@
 
 | Startseite | Erste Seite | Checkliste |
 |------------|-------------|------------|
-| ![1_Startseite](./Wireframes/Startseite.jpg) | ![2_Erste Seite](./Wireframes/Erste%20Seite.jpg) | ![3_Checkliste](./Wireframes/Checkliste.jpg) |
+| ![Startseite](./Wireframes/1_Startseite.jpg) | ![Erste Seite](./Wireframes/2_Erste_Seite.jpg) | ![Checkliste](./Wireframes/3_Checkliste.jpg) |
 
 
