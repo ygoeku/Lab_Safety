@@ -16,9 +16,10 @@ Die Testperson versteht den kollaborativen Charakter der Liste und kann Aufgaben
 
 ---
 
-## 📝 (Optional) Protokoll
+## 📝 Protokoll
 
-**Testperson:** Amal Osmanov, Student BMLD
+**Testperson:** Amal Osmanov, Student 
+
 **Durchführung durch:** Yasemin  
 **Beobachtung & Mitschrift:** Elena
 
