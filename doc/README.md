@@ -14,6 +14,6 @@ Die **Sicherheits- und Hygiene-App** wurde entwickelt, um Laborarbeit sicherer u
 - **Mehrere Nutzer:innen:** Alle Teammitglieder können die Checkliste gleichzeitig nutzen und den Status von Aufgaben sehen.
 
 ## 🚀 Vision
-Unsere App soll nicht nur den Alltag im Labor verbessern, sondern auch dabei helfen, die Einhaltung von Sicherheitsstandards zu gewährleisten. Langfristig möchten wir die App skalierbar gestalten, sodass sie in verschiedenen Labors weltweit eingesetzt werden kann.
+Unsere App soll nicht nur den Alltag im Labor verbessern, sondern auch dabei helfen, die Einhaltung von Sicherheitsstandards zu gewährleisten. Die Dokumentation von erledigten Aufgaben, soll den Mitarbeiter:innen im Labor eine Struktur verleihen und sorgt gleichzeitig für Ordnung und Sicherheit. 
 
 
