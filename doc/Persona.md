@@ -29,7 +29,7 @@
 
 ## 😤 Das ärgert mich immer wieder
 
-> "Es passiert ständig, dass Pipettenspitzen auf der Werkbank liegen oder Proben nicht entsorgt werden. Ich bin nicht die Putzfrau hier – aber wenn ich nichts sage, macht es keiner. Und wenn ich was sage, bin ich die Nervige."
+> "Es passiert ständig, dass Pipettenspitzen auf der Werkbank liegen oder Proben nicht entsorgt werden. Ich entsorge ständig die herumliegenden Sachen. Wenn ich nichts sage, macht es keiner. Und wenn ich was sage, bin ich der Nervige."
 
 ---
 
