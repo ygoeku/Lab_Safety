@@ -20,7 +20,7 @@
 - Digitale Lösungen, die Zeit sparen und dokumentieren
 
 **Ich mag nicht:**
-- Überquellende Müllbehälter  
+- Überlaufende Müllbehälter  
 - Nicht beschriftete Proben oder Reagenzgläser  
 - Wenn Sicherheits-Checklisten einfach *vergessen* werden  
 - Wenn ich ständig andere erinnern muss, was zu tun ist
