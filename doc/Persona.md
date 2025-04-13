@@ -1,7 +1,8 @@
 # 👤 Persona: Max Muster – Der ordnungsbewusste Labormitarbeiter
 
 ## 📌 Allgemeine Informationen
-**Name:** Max Muster 
+**Name:** Max Muster
+ 
 **Alter:** 34 Jahre  
 **Wohnort:** Zürich  
 **Beruf:** Mikrobiologe in einem Forschungslabor  
