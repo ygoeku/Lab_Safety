@@ -6,7 +6,7 @@
 # 🧪 Projektbeschreibung – Sicherheits- und Hygiene-App fürs Labor
 
 ## 🎯 Ziel des Projekts
-Die **Sicherheits- und Hygiene-App** wurde entwickelt, um Laborarbeit sicherer und hygienischer zu gestalten. Sie ermöglicht es den Mitarbeitenden, wichtige Sicherheitsvorgaben schnell abzurufen und regelmäßig Aufgaben zu dokumentieren. Die App fördert eine bessere Zusammenarbeit und eine klare Dokumentation, die den Arbeitsalltag im Labor optimiert.
+Die **Sicherheits- und Hygiene-App** wurde entwickelt, um Laborarbeit sicherer und hygienischer zu gestalten. Sie ermöglicht es den Mitarbeitenden, wichtige Sicherheitsvorgaben schnell abzurufen und regelmässig Aufgaben zu dokumentieren. Die App fördert eine bessere Zusammenarbeit und eine klare Dokumentation, die den Arbeitsalltag im Labor optimiert.
 
 ## 🌟 Funktionen
 - **Startseite mit Sicherheits- und Hygiene-Infos:** Icons bieten schnelle und klare Informationen zu Sicherheits/Hygienerichtlinien im Labor.
