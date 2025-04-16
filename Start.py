@@ -6,7 +6,7 @@ from utils.data_manager import DataManager
 from utils.login_manager import LoginManager
 
 # initialize the data manager
-data_manager = DataManager(fs_protocol='webdav', fs_root_folder="BMLD_App_DB")  # switch drive 
+data_manager = DataManager(fs_protocol='webdav', fs_root_folder="Lab_Safety")  # switch drive 
 
 # initialize the login manager
 login_manager = LoginManager(data_manager)
@@ -25,14 +25,15 @@ data_manager.load_user_data(
 # Here starts the actual app, which was developed previously
 import streamlit as st
 
-st.title('BMI Rechner')
+
+st.title('Lab_Safety')
 
 name = st.session_state.get('name')
 st.markdown(f"✨ Hallo {name}! ✨")
-st.markdown("🏃 Die Anwendung ermöglicht es Ihnen, Ihren BMI zu berechnen und im Zeitverlauf zu verfolgen 📊")
-        
-# Add some health advice
-st.info("""Der BMI ist ein Screening-Tool, aber keine Diagnose für Körperfett oder Gesundheit. 
-Bitte konsultieren Sie einen Arzt für eine vollständige Beurteilung.""")
+st.markdown("🧪 Die Anwendung unterstützt Sie dabei, Sicherheits- und Hygienestandards im Labor einzuhalten und Aufgaben strukturiert zu dokumentieren.")
 
-st.write("Diese App wurde von Samuel Wehrli im Rahmen des Moduls 'BMLD Informatik 2' an der ZHAW entwickelt.")
+# Add some safety advice
+st.info("""Diese Anwendung dient der Unterstützung bei der Einhaltung von Sicherheits- und Hygienerichtlinien. 
+Sie ersetzt jedoch keine offizielle Sicherheitsunterweisung oder persönliche Schutzausrüstung.""")
+
+st.write("Diese App wurde von Yasemin Gökuguz und Elena Avkova im Rahmen des Moduls 'BMLD Informatik 2' an der ZHAW entwickelt.")
