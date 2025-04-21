@@ -6,7 +6,6 @@
 ### **Version 1.0 (Woche 9)**  
 - **Startseite mit Symbolen:** Einfache Icons für Sicherheits- und Hygieneinfos
 - **Checkliste für Aufgaben:** Nutzer können Aufgaben wie „Arbeitsplatz aufgeräumt“, „Mikroskop gereinigt“ abhaken
-
 ---
 
 ## Phase 2 – Usability verbessern und Zusammenarbeit ermöglichen  
