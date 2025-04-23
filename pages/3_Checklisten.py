@@ -4,29 +4,24 @@ import pandas as pd
 st.set_page_config(page_title="Labor-Checkliste", layout="wide")
 
 st.title("🔬 Labor-Checkliste")
-st.markdown("Bitte füllen Sie die Checkliste vor und nach der Arbeit im Labor aus.\nWählen Sie für jede Frage, ob sie zutrifft, teilweise zutrifft oder nicht zutrifft.\nHinterlassen Sie ggf. eine Bemerkung.")
-
-options = ["", "Ja", "Nein", "Teilweise"]
+st.markdown("Bitte füllen Sie die Checkliste vor und nach der Arbeit im Labor aus.\nFür jede Frage können Sie 'Ja', 'Nein' oder 'Teilweise' abhaken. Hinterlassen Sie ggf. eine Bemerkung.")
 
 def render_checklist(title, tasks):
     st.subheader(title)
-    checklist = []
-    for task in tasks:
-        cols = st.columns([4, 1, 1, 1, 3])
-        cols[0].markdown(f"**{task}**")
-        status = cols[1].radio("", options, key=task+"_status", label_visibility="collapsed")
-        bemerkung = cols[4].text_input("Bemerkung", key=task+"_bem")
-        checklist.append({
-            "Aufgabe": task,
-            "Status": status,
-            "Bemerkung": bemerkung
-        })
-    return pd.DataFrame(checklist)
+    df = pd.DataFrame({
+        "Frage": tasks,
+        "Ja": [False] * len(tasks),
+        "Nein": [False] * len(tasks),
+        "Teilweise": [False] * len(tasks),
+        "Bemerkung": [""] * len(tasks)
+    })
+    edited_df = st.data_editor(df, num_rows="fixed", use_container_width=True, key=title)
+    return edited_df
 
 # Aufgaben vor der Arbeit (als Fragen formuliert)
 aufgaben_vor = [
     "Laborkittel angezogen?",
-    "Festes Schuwerk angezogen?",  
+    "Festes Schuhwerk angezogen?",
     "Evtl. Schutzbrille und Schutzmaske angezogen?",
     "Hände gewaschen/desinfiziert?",
     "Desinfektionsmittel verfügbar und aufgefüllt?",
@@ -52,7 +47,7 @@ aufgaben_nach = [
     "Bioabfälle separat entsorgt?",
     "Abfallbehälter geleert?",
     "Fehlende Ergebnisse geprüft?",
-    "Übergabeprotkoll ausgefüllt?",
+    "Übergabeprotokoll ausgefüllt?",
     "Handschuhe ausgezogen und entsorgt?",
     "Laborkittel ausgezogen?",
     "Evtl. Schutzbrille und Schutzmaske ausgezogen?",
@@ -60,11 +55,11 @@ aufgaben_nach = [
 ]
 
 # Checklisten anzeigen
-with st.expander("🧪 Vor der Arbeit"):
-    df_vor = render_checklist("Checkliste vor der Arbeit", aufgaben_vor)
+with st.expander("🧪 Checkliste vor der Arbeit", expanded=True):
+    df_vor = render_checklist("vor", aufgaben_vor)
 
-with st.expander("🧼 Nach der Arbeit"):
-    df_nach = render_checklist("Checkliste nach der Arbeit", aufgaben_nach)
+with st.expander("🧼 Checkliste nach der Arbeit", expanded=True):
+    df_nach = render_checklist("nach", aufgaben_nach)
 
 # Ergebnisse anzeigen
 if st.button("✅ Checkliste abschließen"):
@@ -73,4 +68,3 @@ if st.button("✅ Checkliste abschließen"):
     st.dataframe(df_vor)
     st.write("### Ergebnisse - Nach der Arbeit")
     st.dataframe(df_nach)
-
