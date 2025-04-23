@@ -1,0 +1,29 @@
+Frage,Ja,Nein,Teilweise,Bemerkung,Zeit,Benutzer,Bereich
+Laborkittel angezogen?,True,False,False,,2025-04-23 11:07:22,Elena,Vor der Arbeit
+Festes Schuhwerk angezogen?,True,False,False,,2025-04-23 11:07:22,Elena,Vor der Arbeit
+Evtl. Schutzbrille und Schutzmaske angezogen?,False,True,False,,2025-04-23 11:07:22,Elena,Vor der Arbeit
+Hände gewaschen/desinfiziert?,True,False,False,,2025-04-23 11:07:22,Elena,Vor der Arbeit
+Desinfektionsmittel verfügbar und aufgefüllt?,True,False,False,,2025-04-23 11:07:22,Elena,Vor der Arbeit
+Handschuhe griffbereit?,False,False,False,,2025-04-23 11:07:22,Elena,Vor der Arbeit
+Arbeitsplatz steril?,True,False,False,,2025-04-23 11:07:22,Elena,Vor der Arbeit
+Benötigten Reagenzien bereitgestellt?,False,False,True,,2025-04-23 11:07:22,Elena,Vor der Arbeit
+"Verbrauchsmaterialien aufgefüllt: Pipettenspitzen, Röhrchen, Handschuhe, Schutzmasken?",False,False,False,,2025-04-23 11:07:22,Elena,Vor der Arbeit
+Geräte kalibriert oder deren Stand-by-Modus geprüft?,True,False,False,,2025-04-23 11:07:22,Elena,Vor der Arbeit
+Benötigten Protokolle vorbereitet?,False,True,False,,2025-04-23 11:07:22,Elena,Vor der Arbeit
+Abfallbehälter leer?,False,False,True,,2025-04-23 11:07:22,Elena,Vor der Arbeit
+Tagesplan vollständig durchgelesen?,False,True,False,,2025-04-23 11:07:22,Elena,Vor der Arbeit
+Übergabeprotokoll gelesen?,True,False,False,,2025-04-23 11:07:22,Elena,Vor der Arbeit
+Notfallausrüstung vorhanden?,True,True,False,,2025-04-23 11:07:22,Elena,Vor der Arbeit
+Alle Oberflächen desinfiziert?,False,False,False,,2025-04-23 11:07:22,Elena,Nach der Arbeit
+Reagenzien ordnungsgemäss zurückgestellt?,False,False,False,,2025-04-23 11:07:22,Elena,Nach der Arbeit
+Alle Geräte ausgeschaltet oder in Stand-by gesetzt?,False,False,False,,2025-04-23 11:07:22,Elena,Nach der Arbeit
+Notwendige Wartung dokumentiert?,False,False,False,,2025-04-23 11:07:22,Elena,Nach der Arbeit
+Verbrauch von Materialien nachgetragen?,False,False,False,,2025-04-23 11:07:22,Elena,Nach der Arbeit
+Bioabfälle separat entsorgt?,False,False,False,,2025-04-23 11:07:22,Elena,Nach der Arbeit
+Abfallbehälter geleert?,False,False,False,,2025-04-23 11:07:22,Elena,Nach der Arbeit
+Fehlende Ergebnisse geprüft?,False,False,False,,2025-04-23 11:07:22,Elena,Nach der Arbeit
+Übergabeprotokoll ausgefüllt?,False,False,False,,2025-04-23 11:07:22,Elena,Nach der Arbeit
+Handschuhe ausgezogen und entsorgt?,False,False,False,,2025-04-23 11:07:22,Elena,Nach der Arbeit
+Laborkittel ausgezogen?,False,False,False,,2025-04-23 11:07:22,Elena,Nach der Arbeit
+Evtl. Schutzbrille und Schutzmaske ausgezogen?,False,False,False,,2025-04-23 11:07:22,Elena,Nach der Arbeit
+Hände gründlich gewaschen/desinfiziert?,False,False,False,,2025-04-23 11:07:22,Elena,Nach der Arbeit
