@@ -1,13 +1,30 @@
 import streamlit as st
 import pandas as pd
+from datetime import datetime
+import os
 
 st.set_page_config(page_title="Labor-Checkliste", layout="wide")
 
 st.title("🔬 Labor-Checkliste")
 st.markdown("Bitte füllen Sie die Checkliste vor und nach der Arbeit im Labor aus.\nFür jede Frage können Sie 'Ja', 'Nein' oder 'Teilweise' abhaken. Hinterlassen Sie ggf. eine Bemerkung.")
 
-def render_checklist(title, tasks):
-    st.subheader(title)
+# CSS für bessere Darstellung
+st.markdown("""
+    <style>
+    .element-container:has(> div[data-testid="stDataEditorContainer"]) {
+        overflow: visible !important;
+    }
+    table {
+        font-size: 16px;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+# Verlauf-Datei definieren
+history_file = "checkliste_verlauf.csv"
+
+# Funktion zur Erstellung der Checkliste
+def render_checklist(tasks, key):
     df = pd.DataFrame({
         "Frage": tasks,
         "Ja": [False] * len(tasks),
@@ -15,10 +32,9 @@ def render_checklist(title, tasks):
         "Teilweise": [False] * len(tasks),
         "Bemerkung": [""] * len(tasks)
     })
-    edited_df = st.data_editor(df, num_rows="fixed", use_container_width=True, key=title)
-    return edited_df
+    return st.data_editor(df, num_rows="fixed", use_container_width=True, key=key)
 
-# Aufgaben vor der Arbeit (als Fragen formuliert)
+# Aufgaben
 aufgaben_vor = [
     "Laborkittel angezogen?",
     "Festes Schuhwerk angezogen?",
@@ -37,7 +53,6 @@ aufgaben_vor = [
     "Notfallausrüstung vorhanden?"
 ]
 
-# Aufgaben nach der Arbeit (als Fragen formuliert)
 aufgaben_nach = [
     "Alle Oberflächen desinfiziert?",
     "Reagenzien ordnungsgemäss zurückgestellt?",
@@ -54,17 +69,37 @@ aufgaben_nach = [
     "Hände gründlich gewaschen/desinfiziert?"
 ]
 
-# Checklisten anzeigen
-with st.expander("🧪 Checkliste vor der Arbeit", expanded=True):
-    df_vor = render_checklist("vor", aufgaben_vor)
+# Benutzername-Eingabe
+user = st.text_input("Name der Person, die die Checkliste ausfüllt")
 
-with st.expander("🧼 Checkliste nach der Arbeit", expanded=True):
-    df_nach = render_checklist("nach", aufgaben_nach)
+st.markdown("### 🧑‍🔬 Vor der Arbeit")
+df_vor = render_checklist(aufgaben_vor, "check_vor")
 
-# Ergebnisse anzeigen
+st.markdown("### 📋 Nach der Arbeit")
+df_nach = render_checklist(aufgaben_nach, "check_nach")
+
+# Speichern der Ergebnisse mit Verlauf
 if st.button("✅ Checkliste abschließen"):
-    st.success("Checkliste erfolgreich ausgefüllt!")
-    st.write("### Ergebnisse - Vor der Arbeit")
-    st.dataframe(df_vor)
-    st.write("### Ergebnisse - Nach der Arbeit")
-    st.dataframe(df_nach)
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    df_vor["Zeit"] = timestamp
+    df_nach["Zeit"] = timestamp
+    df_vor["Benutzer"] = user
+    df_nach["Benutzer"] = user
+
+    df_combined = pd.concat([
+        df_vor.assign(Bereich="Vor der Arbeit"),
+        df_nach.assign(Bereich="Nach der Arbeit")
+    ])
+
+    if os.path.exists(history_file):
+        df_old = pd.read_csv(history_file)
+        df_combined = pd.concat([df_old, df_combined], ignore_index=True)
+
+    df_combined.to_csv(history_file, index=False)
+    st.success("Checkliste erfolgreich gespeichert!")
+
+# Verlauf anzeigen
+if os.path.exists(history_file):
+    st.markdown("### 📜 Verlaufshistorie")
+    history_df = pd.read_csv(history_file)
+    st.dataframe(history_df, use_container_width=True)
