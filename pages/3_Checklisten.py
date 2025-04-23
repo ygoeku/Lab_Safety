@@ -1,42 +1,76 @@
 import streamlit as st
+import pandas as pd
 
-st.set_page_config(page_title="Laborsicherheit & Hygiene", layout="centered")
+st.set_page_config(page_title="Labor-Checkliste", layout="wide")
 
-st.title("🧪 Laborsicherheit & Hygiene Checkliste")
+st.title("🔬 Labor-Checkliste")
+st.markdown("Bitte füllen Sie die Checkliste vor und nach der Arbeit im Labor aus.\nWählen Sie für jede Frage, ob sie zutrifft, teilweise zutrifft oder nicht zutrifft.\nHinterlassen Sie ggf. eine Bemerkung.")
 
-st.write("Bitte hake alle erledigten Aufgaben ab:")
+options = ["", "Ja", "Nein", "Teilweise"]
 
-# Aufgabenliste
-tasks = {
-    "Arbeitsplatz aufgeräumt": False,
-    "Mikroskop gereinigt": False,
-    "Abfälle korrekt entsorgt": False,
-    "Oberflächen desinfiziert": False,
-    "Geräte ausgeschaltet": False,
-    "Chemikalien sicher verstaut": False,
-    "Schutzhandschuhe entfernt": False,
-    "Laborbuch aktualisiert": False,
-}
+def render_checklist(title, tasks):
+    st.subheader(title)
+    checklist = []
+    for task in tasks:
+        cols = st.columns([4, 1, 1, 1, 3])
+        cols[0].markdown(f"**{task}**")
+        status = cols[1].radio("", options, key=task+"_status", label_visibility="collapsed")
+        bemerkung = cols[4].text_input("Bemerkung", key=task+"_bem")
+        checklist.append({
+            "Aufgabe": task,
+            "Status": status,
+            "Bemerkung": bemerkung
+        })
+    return pd.DataFrame(checklist)
 
-# Checkboxen anzeigen
-completed_tasks = []
-for task in tasks:
-    if st.checkbox(task):
-        completed_tasks.append(task)
+# Aufgaben vor der Arbeit (als Fragen formuliert)
+aufgaben_vor = [
+    "Laborkittel angezogen?",
+    "Festes Schuwerk angezogen?",  
+    "Evtl. Schutzbrille und Schutzmaske angezogen?",
+    "Hände gewaschen/desinfiziert?",
+    "Desinfektionsmittel verfügbar und aufgefüllt?",
+    "Handschuhe griffbereit?",
+    "Arbeitsplatz steril?",
+    "Benötigten Reagenzien bereitgestellt?",
+    "Verbrauchsmaterialien aufgefüllt: Pipettenspitzen, Röhrchen, Handschuhe, Schutzmasken?",
+    "Geräte kalibriert oder deren Stand-by-Modus geprüft?",
+    "Benötigten Protokolle vorbereitet?",
+    "Abfallbehälter leer?",
+    "Tagesplan vollständig durchgelesen?",
+    "Übergabeprotokoll gelesen?",
+    "Notfallausrüstung vorhanden?"
+]
 
-# Zusammenfassung
-st.markdown("---")
-st.subheader("✅ Erledigte Aufgaben:")
+# Aufgaben nach der Arbeit (als Fragen formuliert)
+aufgaben_nach = [
+    "Alle Oberflächen desinfiziert?",
+    "Reagenzien ordnungsgemäss zurückgestellt?",
+    "Alle Geräte ausgeschaltet oder in Stand-by gesetzt?",
+    "Notwendige Wartung dokumentiert?",
+    "Verbrauch von Materialien nachgetragen?",
+    "Bioabfälle separat entsorgt?",
+    "Abfallbehälter geleert?",
+    "Fehlende Ergebnisse geprüft?",
+    "Übergabeprotkoll ausgefüllt?",
+    "Handschuhe ausgezogen und entsorgt?",
+    "Laborkittel ausgezogen?",
+    "Evtl. Schutzbrille und Schutzmaske ausgezogen?",
+    "Hände gründlich gewaschen/desinfiziert?"
+]
 
-if completed_tasks:
-    for done in completed_tasks:
-        st.markdown(f"- {done}")
-else:
-    st.info("Noch keine Aufgaben abgehakt.")
+# Checklisten anzeigen
+with st.expander("🧪 Vor der Arbeit"):
+    df_vor = render_checklist("Checkliste vor der Arbeit", aufgaben_vor)
 
-# Optional: Button zur Rückmeldung
-if st.button("Checkliste abgeschlossen"):
-    if len(completed_tasks) == len(tasks):
-        st.success("Alle Aufgaben erledigt – Gute Arbeit!")
-    else:
-        st.warning("Nicht alle Aufgaben sind abgehakt.")
+with st.expander("🧼 Nach der Arbeit"):
+    df_nach = render_checklist("Checkliste nach der Arbeit", aufgaben_nach)
+
+# Ergebnisse anzeigen
+if st.button("✅ Checkliste abschließen"):
+    st.success("Checkliste erfolgreich ausgefüllt!")
+    st.write("### Ergebnisse - Vor der Arbeit")
+    st.dataframe(df_vor)
+    st.write("### Ergebnisse - Nach der Arbeit")
+    st.dataframe(df_nach)
+
