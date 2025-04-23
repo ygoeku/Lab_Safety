@@ -23,7 +23,7 @@ st.markdown("""
 
 # DataManager initialisieren
 history_file = st.secrets["storage"]["verlaufspfad"]
-data_manager = DataManager(history_file)
+data_manager = DataManager()  # Singleton + internes fs handling
 
 # Fragen vor der Arbeit
 aufgaben_vor = [
@@ -94,12 +94,13 @@ if st.button("✅ Checkliste abschließen"):
     df_combined = pd.concat([df_vor, df_nach], ignore_index=True)
 
     for _, row in df_combined.iterrows():
-        data_manager.append_record(session_key="verlauf_df", record_dict=row.to_dict())
+        data_manager.append_record(session_state_key="verlauf_df", record_dict=row.to_dict())
 
     st.success("Checkliste erfolgreich gespeichert!")
 
 # Verlauf anzeigen
 st.markdown("### 📜 Verlaufshistorie")
-verlauf_df = data_manager.load()
+data_manager.load_app_data("verlauf_df", "checkliste_verlauf.csv", initial_value=pd.DataFrame())
+verlauf_df = st.session_state["verlauf_df"]
 st.dataframe(verlauf_df, use_container_width=True)
 
