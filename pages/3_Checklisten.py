@@ -1,8 +1,5 @@
 import streamlit as st
 import pandas as pd
-from datetime import datetime
-import os
-from utils.data_manager import DataManager
 
 st.set_page_config(page_title="Labor-Checkliste", layout="wide")
 
@@ -20,10 +17,6 @@ st.markdown("""
     }
     </style>
 """, unsafe_allow_html=True)
-
-# DataManager initialisieren
-history_file = st.secrets["storage"]["verlaufspfad"]
-data_manager = DataManager()  # Singleton + internes fs handling
 
 # Fragen vor der Arbeit
 aufgaben_vor = [
@@ -81,26 +74,7 @@ df_vor = render_checklist(aufgaben_vor, "check_vor")
 st.markdown("### 📋 Nach der Arbeit")
 df_nach = render_checklist(aufgaben_nach, "check_nach")
 
-# Speichern der Ergebnisse mit DataManager
+# Hinweis statt Speicherung
 if st.button("✅ Checkliste abschließen"):
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    df_vor["Zeit"] = timestamp
-    df_nach["Zeit"] = timestamp
-    df_vor["Benutzer"] = user
-    df_nach["Benutzer"] = user
-    df_vor["Bereich"] = "Vor der Arbeit"
-    df_nach["Bereich"] = "Nach der Arbeit"
-
-    df_combined = pd.concat([df_vor, df_nach], ignore_index=True)
-
-    for _, row in df_combined.iterrows():
-        data_manager.append_record(session_state_key="verlauf_df", record_dict=row.to_dict())
-
-    st.success("Checkliste erfolgreich gespeichert!")
-
-# Verlauf anzeigen
-st.markdown("### 📜 Verlaufshistorie")
-data_manager.load_app_data("verlauf_df", "checkliste_verlauf.csv", initial_value=pd.DataFrame())
-verlauf_df = st.session_state["verlauf_df"]
-st.dataframe(verlauf_df, use_container_width=True)
+    st.success("Checkliste abgeschlossen (wird nicht gespeichert).")
 
