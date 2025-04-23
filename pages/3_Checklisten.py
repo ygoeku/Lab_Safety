@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 from datetime import datetime
 import os
+from utils.data_manager import DataManager
 
 st.set_page_config(page_title="Labor-Checkliste", layout="wide")
 
@@ -20,8 +21,9 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Verlauf-Datei definieren
-history_file = "/mnt/switch/checklisten/checkliste_verlauf.csv"
+# DataManager initialisieren
+history_file = st.secrets["storage"]["verlaufspfad"]
+data_manager = DataManager(history_file)
 
 # Fragen vor der Arbeit
 aufgaben_vor = [
@@ -79,29 +81,25 @@ df_vor = render_checklist(aufgaben_vor, "check_vor")
 st.markdown("### 📋 Nach der Arbeit")
 df_nach = render_checklist(aufgaben_nach, "check_nach")
 
-# Speichern der Ergebnisse mit Verlauf
+# Speichern der Ergebnisse mit DataManager
 if st.button("✅ Checkliste abschließen"):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     df_vor["Zeit"] = timestamp
     df_nach["Zeit"] = timestamp
     df_vor["Benutzer"] = user
     df_nach["Benutzer"] = user
+    df_vor["Bereich"] = "Vor der Arbeit"
+    df_nach["Bereich"] = "Nach der Arbeit"
 
-    df_combined = pd.concat([
-        df_vor.assign(Bereich="Vor der Arbeit"),
-        df_nach.assign(Bereich="Nach der Arbeit")
-    ])
+    df_combined = pd.concat([df_vor, df_nach], ignore_index=True)
 
-    if os.path.exists(history_file):
-        df_old = pd.read_csv(history_file)
-        df_combined = pd.concat([df_old, df_combined], ignore_index=True)
+    for _, row in df_combined.iterrows():
+        data_manager.append_record(session_key="verlauf_df", record_dict=row.to_dict())
 
-    df_combined.to_csv(history_file, index=False)
     st.success("Checkliste erfolgreich gespeichert!")
 
 # Verlauf anzeigen
-if os.path.exists(history_file):
-    st.markdown("### 📜 Verlaufshistorie")
-    history_df = pd.read_csv(history_file)
-    st.dataframe(history_df, use_container_width=True)
+st.markdown("### 📜 Verlaufshistorie")
+verlauf_df = data_manager.load()
+st.dataframe(verlauf_df, use_container_width=True)
 
