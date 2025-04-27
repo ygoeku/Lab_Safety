@@ -1,21 +1,25 @@
 import streamlit as st
+import os
 
-st.set_page_config(page_title="Laborsicherheit", layout="wide")
+# Setze hier deinen absoluten Bildpfad!
+BILDER_ORDNER = r"C:/Users/elena/OneDrive/Desktop/signale"
 
-# Hilfsfunktion zum Laden von Bild + Infobutton
-def bild_mit_info(bildname, beschreibung, titel):
-    st.image(bildname, width=150)
-    with st.expander("ℹ️ Mehr erfahren", expanded=False):
-        st.markdown(
-            f"<div style='background-color: #e6f2ff; padding: 10px; border-radius: 10px;'>{beschreibung}</div>",
-            unsafe_allow_html=True
-        )
+# Hilfsfunktion zum Laden der Bilder
+def bild_mit_info(dateiname, beschreibung, key_suffix):
+    bildpfad = os.path.join(BILDER_ORDNER, dateiname)
+    if os.path.exists(bildpfad):
+        with st.container():
+            st.image(bildpfad, width=150)
+            if st.button("ℹ️ Mehr erfahren", key=f"info_{key_suffix}"):
+                st.info(beschreibung)
+    else:
+        st.error(f"Bild '{dateiname}' nicht gefunden!")
 
-# --- Titel der Seite ---
-st.markdown("<h1 style='text-align: center; color: #3399FF;'>🧪 Symbole für das tägliche Arbeiten im Labor</h1>", unsafe_allow_html=True)
+# --- Haupttitel ---
+st.markdown("<h1 style='text-align: center; color: #2E8BFF;'>🧪 Symbole für das tägliche Arbeiten im Labor</h1>", unsafe_allow_html=True)
 
 # --- Erster Bereich: tägliches Arbeiten ---
-with st.expander("🧪 Symbole für das tägliche Arbeiten im Labor", expanded=False):
+with st.expander("🧪 Symbole für das tägliche Arbeiten im Labor", expanded=True):
     col1, col2, col3, col4 = st.columns(4)
     with col1:
         bild_mit_info(
@@ -45,11 +49,10 @@ with st.expander("🧪 Symbole für das tägliche Arbeiten im Labor", expanded=F
 # --- Abstand ---
 st.markdown("<hr>", unsafe_allow_html=True)
 
-# --- Titel für Notfallsituation ---
+# --- Zweiter Bereich: Notfallsituation ---
 st.markdown("<h1 style='text-align: center; color: #FF4500;'>🚨 Symbole zu beachten in Notfallsituationen</h1>", unsafe_allow_html=True)
 
-# --- Zweiter Bereich: Notfallsituation ---
-with st.expander("🚨 Symbole zu beachten in Notfallsituationen", expanded=False):
+with st.expander("🚨 Symbole zu beachten in Notfallsituationen", expanded=True):
     col5, col6, col7, col8 = st.columns(4)
     with col5:
         bild_mit_info(
