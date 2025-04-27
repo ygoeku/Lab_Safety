@@ -1,5 +1,6 @@
 import streamlit as st
 from PIL import Image
+import os
 
 # Funktion zum Laden und Anzeigen eines Bildes mit Expander für mehr Infos
 def load_image_with_info(filename, beschreibung, mehr_info):
