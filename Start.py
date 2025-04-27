@@ -35,5 +35,4 @@ st.markdown("🧪 Die Anwendung unterstützt Sie dabei, Sicherheits- und Hygiene
 # Add some safety advice
 st.info("""Diese Anwendung dient der Unterstützung bei der Einhaltung von Sicherheits- und Hygienerichtlinien. 
 Sie ersetzt jedoch keine offizielle Sicherheitsunterweisung oder persönliche Schutzausrüstung.""")
-
 st.write("Diese App wurde von Yasemin Gökuguz und Elena Avkova im Rahmen des Moduls 'BMLD Informatik 2' an der ZHAW entwickelt.")
