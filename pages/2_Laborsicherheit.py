@@ -5,10 +5,10 @@ import os
 # Basis-Pfad zu deinen Bildern
 basis_pfad = r"C:\Users\elena\OneDrive\Desktop\signale"
 
-# CSS für das Design
+# CSS für Design
 st.markdown("""
     <style>
-    .custom-image {
+    img {
         border-radius: 15px;
         box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         margin-bottom: 10px;
@@ -26,20 +26,12 @@ def load_image_with_info(filename, beschreibung, mehr_info):
     bild_pfad = os.path.join(basis_pfad, filename)
     if os.path.exists(bild_pfad):
         img = Image.open(bild_pfad)
-        img = img.resize((300, 300))
-        st.image(img, caption=beschreibung, output_format="JPEG", use_column_width=False)
-        st.markdown(f'<img src="data:image/jpeg;base64,{img_to_base64(bild_pfad)}" class="custom-image" width="300">', unsafe_allow_html=True)
+        img = img.resize((300, 300))  # Größe einheitlich
+        st.image(img, caption=beschreibung)  # Nur st.image verwenden!
         with st.expander(f"Mehr erfahren über {beschreibung}"):
             st.write(mehr_info)
     else:
         st.error(f"Bild '{filename}' nicht gefunden!")
-
-# Hilfsfunktion für Bilder als Base64
-import base64
-def img_to_base64(img_path):
-    with open(img_path, "rb") as f:
-        data = f.read()
-    return base64.b64encode(data).decode()
 
 # ------------------------------
 # Erste Gruppe: Tägliche Arbeit
