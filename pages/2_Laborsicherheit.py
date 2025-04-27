@@ -1,41 +1,42 @@
 import streamlit as st
 
-# Funktion zum Anzeigen der Bilder mit Infobutton
-def bild_mit_info(bildname, beschreibung, mehr_info):
+# Funktion zum Laden der Bilder
+def bild_mit_info(bildname, titel, info):
     col = st.container()
     with col:
-        # Bild laden
         st.image(bildname, width=150)
-        st.caption(beschreibung)
-        # Infobutton als Expander
-        with st.expander("ℹ️ Mehr erfahren"):
-            st.write(mehr_info)
+        with st.expander(f"ℹ️ Mehr erfahren über {titel}"):
+            st.write(info)
 
-# Layout: Zwei Bereiche (Tägliche Arbeiten & Notfallsituation)
-st.markdown("<h1 style='text-align: center; color: #1995dc;'>🧪 Symbole für das tägliche Arbeiten im Labor</h1>", unsafe_allow_html=True)
+# Hauptüberschrift
+st.markdown("<h1 style='text-align: center; color: #2196f3;'>🧪 Symbole für das tägliche Arbeiten im Labor</h1>", unsafe_allow_html=True)
 
-with st.expander("Symbole für das tägliche Arbeiten im Labor"):
+# Expander für tägliche Arbeit
+with st.expander("🧪 Symbole für das tägliche Arbeiten im Labor"):
     col1, col2, col3, col4 = st.columns(4)
     with col1:
-        bild_mit_info("augenschutz.jpg", "Augenschutz", "Schutzbrillen verhindern Verletzungen durch Flüssigkeiten oder Splitter.")
+        bild_mit_info("augenschutz.jpg", "Augenschutz", "Schutzbrillen verhindern, dass gefährliche Flüssigkeiten oder Splitter deine Augen verletzen.")
     with col2:
         bild_mit_info("handschutz.jpg", "Handschutz", "Schutzhandschuhe schützen deine Hände vor Chemikalien, Schnitten und Hitze.")
     with col3:
-        bild_mit_info("labormantel.jpg", "Labormantel", "Labormäntel schützen deine Haut und Kleidung vor gefährlichen Stoffen.")
+        bild_mit_info("labormantel.jpg", "Labormantel", "Laborkittel schützen deine Kleidung und Haut. Sie sollten schwer entflammbar sein.")
     with col4:
-        bild_mit_info("essen_und_trinken_verboten.jpg", "Essen und Trinken verboten", "Verhindert Kontamination durch gefährliche Substanzen im Labor.")
+        bild_mit_info("essen_und_trinken_verboten.jpg", "Essen und Trinken verboten", "Im Labor ist Essen und Trinken strengstens verboten, um Kontamination zu vermeiden.")
 
-st.divider()
+# Trennlinie
+st.markdown("---")
 
-st.markdown("<h1 style='text-align: center; color: #d62728;'>🚨 Symbole zu beachten in Notfallsituationen</h1>", unsafe_allow_html=True)
+# Zweite Hauptüberschrift
+st.markdown("<h1 style='text-align: center; color: #e53935;'>🚨 Symbole zu beachten in Notfallsituationen</h1>", unsafe_allow_html=True)
 
-with st.expander("Symbole zu beachten in Notfallsituationen"):
+# Expander für Notfallsituationen
+with st.expander("🚨 Symbole zu beachten in Notfallsituationen"):
     col1, col2, col3, col4 = st.columns(4)
     with col1:
-        bild_mit_info("Augenspüleinrichtung.jpg", "Augenspüleinrichtung", "Schnelle Spülung bei Augenkontakt mit Chemikalien.")
+        bild_mit_info("Augenspüleinrichtung.jpg", "Augenspüleinrichtung", "Bei Verätzungen oder Fremdkörpern in den Augen sofort die Augenspüleinrichtung benutzen.")
     with col2:
-        bild_mit_info("erste_hilfe_start.jpg", "Erste Hilfe", "Zeigt den Standort der Erste-Hilfe-Ausrüstung.")
+        bild_mit_info("erste_hilfe_start.jpg", "Erste Hilfe", "Im Notfall findest du hier das Erste-Hilfe-Set für schnelle medizinische Versorgung.")
     with col3:
-        bild_mit_info("notausgang.jpg", "Notausgang", "Weg zur schnellen Evakuierung im Notfall.")
+        bild_mit_info("notausgang.jpg", "Notausgang", "Bei Gefahr sofort den gekennzeichneten Notausgang benutzen.")
     with col4:
-        bild_mit_info("notruftelefon.jpg", "Notruftelefon", "Schneller Kontakt zur Notfallzentrale oder Feuerwehr.")
+        bild_mit_info("notruftelefon.jpg", "Notruftelefon", "Im Notfall erreichst du über das Notruftelefon die Sicherheitsdienste.")
