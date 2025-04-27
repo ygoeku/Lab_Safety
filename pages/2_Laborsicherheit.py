@@ -1,37 +1,22 @@
 import streamlit as st
+import os
 
-# Pfad zum Desktop
-desktop_path = r"C:\Users\elena\Desktop"
+# Automatisch Desktop Pfad finden
+desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
 
 st.title("Sicherheitszeichen")
 
-# Handschuhe Bild
-st.image(f"{desktop_path}\\handschuhe.jpg", caption="Handschuhe tragen", width=200)
-link1 = st.text_input("Infos zu Handschuhe tragen:", "https://dein-link-zu-infos.de")
-if st.button("Mehr Infos Handschuhe"):
-    st.markdown(f"[Hier klicken]({link1})")
+# Funktion zum sicheren Laden
+def load_image(filename):
+    full_path = os.path.join(desktop_path, filename)
+    if os.path.exists(full_path):
+        st.image(full_path, caption=filename, width=200)
+    else:
+        st.error(f"Datei nicht gefunden: {filename}")
 
-st.divider()
-
-# Schutzbrille Bild
-st.image(f"{desktop_path}\\laborbrille.gif", caption="Schutzbrille tragen", width=200)
-link2 = st.text_input("Infos zu Schutzbrille tragen:", "https://dein-link-zu-infos.de")
-if st.button("Mehr Infos Schutzbrille"):
-    st.markdown(f"[Hier klicken]({link2})")
-
-st.divider()
-
-# Laborkittel Bild
-st.image(f"{desktop_path}\\laborkittel.png", caption="Laborkittel tragen", width=200)
-link3 = st.text_input("Infos zu Laborkittel tragen:", "https://dein-link-zu-infos.de")
-if st.button("Mehr Infos Laborkittel"):
-    st.markdown(f"[Hier klicken]({link3})")
-
-st.divider()
-
-# Notausgang Bild
-st.image(f"{desktop_path}\\notfall ausgang.jpg", caption="Notausgang", width=200)
-link4 = st.text_input("Infos zu Notausgang:", "https://dein-link-zu-infos.de")
-if st.button("Mehr Infos Notausgang"):
-    st.markdown(f"[Hier klicken]({link4})")
+# Bilder laden
+load_image("handschuhe.png")
+load_image("laborbrille.gif")
+load_image("laborkittel.png")
+load_image("notfall ausgang.jpg")
 
