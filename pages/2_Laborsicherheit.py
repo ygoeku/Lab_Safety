@@ -1,8 +1,8 @@
 import streamlit as st
 import os
 
-# Setze hier deinen absoluten Bildpfad!
-BILDER_ORDNER = r"C:/Users/elena/OneDrive/Desktop/signale"
+# --- Richtiger Bilder-Ordner ---
+BILDER_ORDNER = "pages"  # Bilder sind im 'pages' Ordner
 
 # Hilfsfunktion zum Laden der Bilder
 def bild_mit_info(dateiname, beschreibung, key_suffix):
@@ -13,7 +13,7 @@ def bild_mit_info(dateiname, beschreibung, key_suffix):
             if st.button("ℹ️ Mehr erfahren", key=f"info_{key_suffix}"):
                 st.info(beschreibung)
     else:
-        st.error(f"Bild '{dateiname}' nicht gefunden!")
+        st.error(f"Bild '{bildpfad}' nicht gefunden!")  # zeigt den gesuchten Pfad an
 
 # --- Haupttitel ---
 st.markdown("<h1 style='text-align: center; color: #2E8BFF;'>🧪 Symbole für das tägliche Arbeiten im Labor</h1>", unsafe_allow_html=True)
@@ -49,7 +49,7 @@ with st.expander("🧪 Symbole für das tägliche Arbeiten im Labor", expanded=T
 # --- Abstand ---
 st.markdown("<hr>", unsafe_allow_html=True)
 
-# --- Zweiter Bereich: Notfallsituation ---
+# --- Zweiter Bereich: Notfallsituationen ---
 st.markdown("<h1 style='text-align: center; color: #FF4500;'>🚨 Symbole zu beachten in Notfallsituationen</h1>", unsafe_allow_html=True)
 
 with st.expander("🚨 Symbole zu beachten in Notfallsituationen", expanded=True):
@@ -78,3 +78,4 @@ with st.expander("🚨 Symbole zu beachten in Notfallsituationen", expanded=True
             "Ein Notruftelefon ermöglicht schnelle Kontaktaufnahme mit Rettungsdiensten im Notfall.",
             "notruftelefon"
         )
+        
