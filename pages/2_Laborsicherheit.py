@@ -21,15 +21,16 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Funktion zum Laden und Anzeigen eines Bildes
-def load_image_with_info(filename, beschreibung, mehr_info):
+# Funktion zum Laden und Anzeigen eines Bildes + Button für Info
+def load_image_with_button(filename, beschreibung, mehr_info, key):
     bild_pfad = os.path.join(basis_pfad, filename)
     if os.path.exists(bild_pfad):
         img = Image.open(bild_pfad)
         img = img.resize((300, 300))
         st.image(img, caption=beschreibung)
-        with st.expander(f"Mehr erfahren über {beschreibung}"):
-            st.write(mehr_info)
+
+        if st.button(f"Mehr erfahren über {beschreibung}", key=key):
+            st.info(mehr_info)
     else:
         st.error(f"Bild '{filename}' nicht gefunden!")
 
@@ -48,7 +49,12 @@ with st.expander("🔹 Symbole für das tägliche Arbeiten im Labor", expanded=F
         spalten = st.columns(2)
         for spalte, (filename, beschreibung, mehr_info) in zip(spalten, arbeit_bilder[i:i+2]):
             with spalte:
-                load_image_with_info(filename, beschreibung, mehr_info)
+                load_image_with_button(filename, beschreibung, mehr_info, key=filename)
+
+# ------------------------------
+# Trennlinie
+# ------------------------------
+st.divider()
 
 # ------------------------------
 # Zweite Gruppe: Notfallsymbole
@@ -65,4 +71,4 @@ with st.expander("🔺 Symbole zu beachten in Notfallsituationen", expanded=Fals
         spalten = st.columns(2)
         for spalte, (filename, beschreibung, mehr_info) in zip(spalten, notfall_bilder[i:i+2]):
             with spalte:
-                load_image_with_info(filename, beschreibung, mehr_info)
+                load_image_with_button(filename, beschreibung, mehr_info, key=filename)
