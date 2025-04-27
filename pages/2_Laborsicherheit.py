@@ -7,7 +7,7 @@ st.divider()
 st.divider()
 
 # Laborkittel Bild
-st.image("laborkittel.jpg", caption="Laborkittel tragen", width=200)
+st.image("laborkittel.png", caption="Laborkittel tragen", width=200)
 link3 = st.text_input("Infos zu Laborkittel tragen:", "https://dein-link-zu-infos.de")
 if st.button("Mehr Infos Laborkittel"):
     st.markdown(f"[Hier klicken]({link3})")
