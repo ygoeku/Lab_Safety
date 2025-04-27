@@ -10,8 +10,8 @@ def bild_mit_info(dateiname, titel, beschreibung):
     if os.path.exists(bildpfad):
         with st.container():
             st.image(bildpfad, width=150)
-            with st.expander("ℹ️ Mehr erfahren über " + titel):
-                st.write(beschreibung)
+            if st.button(f"ℹ️ Mehr erfahren über {titel}", key=titel):
+                st.info(beschreibung)
     else:
         st.error(f"Bild '{dateiname}' nicht gefunden!")
 
