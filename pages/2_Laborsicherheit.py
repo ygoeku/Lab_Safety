@@ -1,45 +1,48 @@
 import streamlit as st
 
-# Funktion zum Bildanzeigen mit eigenem Infobutton
-def bild_mit_info(bildname, beschreibung, mehr_info):
-    if st.button(f"ℹ️ {beschreibung}", key=bildname):
+# Funktion für ein Bild + Infobutton darunter
+def bild_mit_info(bildname, titel, info):
+    col = st.container()
+    with col:
         st.image(bildname, width=200)
-        with st.expander(f"Mehr erfahren über {beschreibung}"):
-            st.write(mehr_info)
-    else:
-        st.image(bildname, width=200)
-        st.caption(beschreibung)
+        with st.expander(f"ℹ️ Mehr erfahren über {titel}"):
+            st.write(info)
 
-# Layout
+# Schöne Überschrift
+st.markdown(
+    "<h1 style='text-align: center; color: #2E86C1;'>🧪 Symbole für das tägliche Arbeiten im Labor</h1>",
+    unsafe_allow_html=True
+)
 
-st.markdown("<h1 style='text-align: center;'>🔬 Symbole für das tägliche Arbeiten im Labor</h1>", unsafe_allow_html=True)
-spalte1, spalte2, spalte3, spalte4 = st.columns(4)
+# Erster Expander
+with st.expander("🧪 Symbole für das tägliche Arbeiten im Labor", expanded=False):
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        bild_mit_info("schutzbrille.jpg", "Schutzbrille", "Schutzbrillen verhindern, dass gefährliche Flüssigkeiten oder Splitter deine Augen verletzen.")
+    with col2:
+        bild_mit_info("handschutz.jpg", "Schutzhandschuhe", "Schutzhandschuhe schützen deine Hände vor Chemikalien, Schnitten und Hitze.")
+    with col3:
+        bild_mit_info("labormantel.jpg", "Labormantel", "Labormäntel schützen deine Kleidung und Haut vor Chemikalien und Feuer.")
+    with col4:
+        bild_mit_info("essen_und_trinken_verboten.jpg", "Essen und Trinken verboten", "Essen und Trinken im Labor sind verboten, um Kontaminationen und Vergiftungen zu vermeiden.")
 
-with spalte1:
-    bild_mit_info("schutzbrille.jpg", "Schutzbrille", "Schutzbrillen verhindern, dass gefährliche Flüssigkeiten oder Splitter deine Augen verletzen.")
-
-with spalte2:
-    bild_mit_info("handschutz.jpg", "Handschuhe", "Schutzhandschuhe schützen deine Hände vor Chemikalien, Schnitten und Hitze.")
-
-with spalte3:
-    bild_mit_info("labormantel.jpg", "Labormantel", "Laborkittel schützen deine Kleidung und Haut. Achte darauf, dass der Kittel schwer entflammbar ist.")
-
-with spalte4:
-    bild_mit_info("essen_und_trinken_verboten.jpg", "Essen und Trinken verboten", "Im Labor darf nicht gegessen oder getrunken werden, um Kontamination zu vermeiden.")
-
+# Abstandslinie
 st.markdown("---")
 
-st.markdown("<h1 style='text-align: center;'>🚨 Symbole zu beachten in Notfallsituationen</h1>", unsafe_allow_html=True)
-spalte5, spalte6, spalte7, spalte8 = st.columns(4)
+# Zweite Überschrift
+st.markdown(
+    "<h1 style='text-align: center; color: #C0392B;'>🚨 Symbole zu beachten in Notfallsituationen</h1>",
+    unsafe_allow_html=True
+)
 
-with spalte5:
-    bild_mit_info("Augenspüleinrichtung.jpg", "Augenspüleinrichtung", "Bei Kontakt mit gefährlichen Stoffen sofort die Augenspüleinrichtung benutzen.")
-
-with spalte6:
-    bild_mit_info("erste_hilfe_start.jpg", "Erste Hilfe", "Hier findest du die Erste-Hilfe-Ausrüstung für Verletzungen im Labor.")
-
-with spalte7:
-    bild_mit_info("notausgang.jpg", "Notausgang", "Im Notfall sofort den nächstgelegenen Notausgang benutzen.")
-
-with spalte8:
-    bild_mit_info("notruftelefon.jpg", "Notruftelefon", "Benutze dieses Telefon, um im Notfall schnell Hilfe zu rufen.")
+# Zweiter Expander
+with st.expander("🚨 Symbole zu beachten in Notfallsituationen", expanded=False):
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        bild_mit_info("augenschutz.jpg", "Augenspüleinrichtung", "Im Falle einer Verätzung oder Verunreinigung können die Augen sofort ausgespült werden.")
+    with col2:
+        bild_mit_info("erste_hilfe_start.jpg", "Erste Hilfe", "Standort für Erste-Hilfe-Material und medizinische Notfallversorgung.")
+    with col3:
+        bild_mit_info("notausgang.jpg", "Notausgang", "Fluchtweg bei Feuer oder anderen Notfällen. Immer freihalten!")
+    with col4:
+        bild_mit_info("notruftelefon.jpg", "Notruftelefon", "Im Notfall kann hier direkt Hilfe gerufen werden.")
