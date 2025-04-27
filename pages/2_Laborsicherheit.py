@@ -4,16 +4,10 @@ st.title("Sicherheitszeichen")
 
 st.divider()
 
-# Schutzbrille Bild
-st.image("laborbrille.gif", caption="Schutzbrille tragen", width=200)
-link2 = st.text_input("Infos zu Schutzbrille tragen:", "https://dein-link-zu-infos.de")
-if st.button("Mehr Infos Schutzbrille"):
-    st.markdown(f"[Hier klicken]({link2})")
-
 st.divider()
 
 # Laborkittel Bild
-st.image("laborkittel.png", caption="Laborkittel tragen", width=200)
+st.image("laborkittel.jpg", caption="Laborkittel tragen", width=200)
 link3 = st.text_input("Infos zu Laborkittel tragen:", "https://dein-link-zu-infos.de")
 if st.button("Mehr Infos Laborkittel"):
     st.markdown(f"[Hier klicken]({link3})")
