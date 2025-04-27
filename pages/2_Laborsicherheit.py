@@ -20,10 +20,14 @@ col1, col2 = st.columns(2)
 
 # Liste der Bilder, Beschreibungen und zusätzlichen Infos
 bild_liste = [
-    ("handschuhe.jpg", "Schutzhandschuhe", " Schutzhandschuhe schützen deine Hände vor Chemikalien, Schnitten und Hitze. Immer tragen, wenn du mit gefährlichen Stoffen arbeitest!"),
-    ("laborbrille.jpg", "Schutzbrille", " Schutzbrillen verhindern, dass gefährliche Flüssigkeiten oder Splitter deine Augen verletzen."),
-    ("laborkittel.jpg", "Laborkittel", " Laborkittel schützen deine Kleidung und Haut. Achte darauf, dass der Kittel aus schwer entflammbarem Material besteht."),
-    ("notausgang.jpg", "Notausgang", " Notausgänge ermöglichen eine schnelle Flucht bei Bränden oder anderen Notfällen. Halte sie immer frei und wisse, wo sie sind!")
+    ("augenschutz.jpg", "Schutzbrille", "Schutzbrillen verhindern, dass gefährliche Flüssigkeiten oder Splitter deine Augen verletzen."),
+    ("Augenspüleinrichtung.jpg", "Augenspüleinrichtung", "Im Notfall kannst du mit einer Augenspüleinrichtung deine Augen schnell von gefährlichen Stoffen reinigen."),
+    ("erste_hilfe_start.jpg", "Erste Hilfe", "An der Erste-Hilfe-Station findest du Verbandmaterial und Hilfe für Verletzungen."),
+    ("essen_und_trinken_verboten.jpg", "Essen und Trinken verboten", "Im Labor ist Essen und Trinken verboten, um Kontaminationen und Vergiftungen zu vermeiden."),
+    ("handschutz.jpg", "Schutzhandschuhe", "Schutzhandschuhe schützen deine Hände vor Chemikalien, Schnitten und Hitze."),
+    ("laborkittel.jpg", "Laborkittel", "Laborkittel schützen deine Kleidung und Haut vor gefährlichen Substanzen."),
+    ("notausgang.jpg", "Notausgang", "Notausgänge ermöglichen eine schnelle Flucht bei Bränden oder anderen Notfällen."),
+    ("notruftelefon_2.jpg", "Notruftelefon", "Im Notfall kannst du hier schnell Hilfe rufen. Notrufnummern sollten gut sichtbar sein.")
 ]
 
 # Bilder automatisch in zwei Spalten laden
@@ -32,14 +36,3 @@ for index, (filename, beschreibung, mehr_info) in enumerate(bild_liste):
         load_image_with_info(filename, beschreibung, mehr_info, col1)
     else:
         load_image_with_info(filename, beschreibung, mehr_info, col2)
-        
-
-
-
-
-
-
-
-
-
-
