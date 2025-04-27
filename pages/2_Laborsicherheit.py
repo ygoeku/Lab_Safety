@@ -2,12 +2,6 @@ import streamlit as st
 
 st.title("Sicherheitszeichen")
 
-# Handschuhe Bild
-st.image("handschuhe.jpg", caption="Handschuhe tragen", width=200)
-link1 = st.text_input("Infos zu Handschuhe tragen:", "https://dein-link-zu-infos.de")
-if st.button("Mehr Infos Handschuhe"):
-    st.markdown(f"[Hier klicken]({link1})")
-
 st.divider()
 
 # Schutzbrille Bild
