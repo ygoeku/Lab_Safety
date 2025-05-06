@@ -36,3 +36,16 @@ def zeige_notfallleiste():
             🚨 Notfallnummern: ZHAW 7070 | Ambulanz 144 | Polizei 117 | Feuerwehr 118 | REGA 1414 | Toxinfo 145
         </div>
     """, unsafe_allow_html=True)
+import streamlit as st
+
+def set_hintergrundbild_url(bild_url):
+    st.markdown(f"""
+        <style>
+        .stApp {{
+            background-image: url("{bild_url}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }}
+        </style>
+    """, unsafe_allow_html=True)
