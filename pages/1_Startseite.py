@@ -55,4 +55,6 @@ with col2:
         st.switch_page("pages/3_Checklisten.py")
 from utils.helpers import zeige_notfallleiste
 zeige_notfallleiste()
+from utils.helpers import set_hintergrundbild_url
+set_hintergrundbild_url("https://i.pinimg.com/736x/ff/17/59/ff175958256fd267309fff70f59c9776.jpg")
         
