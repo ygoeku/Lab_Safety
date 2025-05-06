@@ -77,4 +77,5 @@ df_nach = render_checklist(aufgaben_nach, "check_nach")
 # Hinweis statt Speicherung
 if st.button("✅ Checkliste abschließen"):
     st.success("Checkliste abgeschlossen (wird nicht gespeichert).")
-
+from utils.helpers import zeige_notfallleiste
+zeige_notfallleiste()

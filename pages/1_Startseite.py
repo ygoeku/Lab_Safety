@@ -53,4 +53,6 @@ with col1:
 with col2:
     if st.button("✅ Checkliste", use_container_width=True):
         st.switch_page("pages/3_Checklisten.py")
+from utils.helpers import zeige_notfallleiste
+zeige_notfallleiste()
         

@@ -78,4 +78,7 @@ with st.expander("🚨 Symbole zu beachten in Notfallsituationen", expanded=True
             "Ein Notruftelefon ermöglicht schnelle Kontaktaufnahme mit Rettungsdiensten im Notfall.",
             "notruftelefon"
         )
+from utils.helpers import zeige_notfallleiste
+zeige_notfallleiste()
+
         
