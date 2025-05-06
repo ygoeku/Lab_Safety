@@ -36,16 +36,33 @@ def zeige_notfallleiste():
             🚨 Notfallnummern: ZHAW 7070 | Ambulanz 144 | Polizei 117 | Feuerwehr 118 | REGA 1414 | Toxinfo 145
         </div>
     """, unsafe_allow_html=True)
-import streamlit as st
 
-def set_hintergrundbild_url(bild_url):
+
+import streamlit as st
+def set_hintergrundfarbe(farbe="#F5F5F5"):
     st.markdown(f"""
         <style>
         .stApp {{
+            background-color: {farbe};
+        }}
+        </style>
+    """, unsafe_allow_html=True)
+import streamlit as st
+
+def set_vollbild_hintergrund_url(bild_url):
+    st.markdown(f"""
+        <style>
+        html, body, .stApp {{
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }}
+        .stApp {{
             background-image: url("{bild_url}");
             background-size: cover;
-            background-position: center;
             background-repeat: no-repeat;
+            background-position: center;
+            background-attachment: fixed;
         }}
         </style>
     """, unsafe_allow_html=True)

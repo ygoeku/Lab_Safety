@@ -81,4 +81,5 @@ with st.expander("🚨 Symbole zu beachten in Notfallsituationen", expanded=True
 from utils.helpers import zeige_notfallleiste
 zeige_notfallleiste()
 
-        
+from utils.helpers import set_vollbild_hintergrund_url
+set_dezentes_hintergrundbild_url("https://images.unsplash.com/photo-1699491076670-7e7cb2fd0f0a?q=80&w=3116&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")

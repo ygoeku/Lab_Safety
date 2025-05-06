@@ -73,9 +73,5 @@ df_vor = render_checklist(aufgaben_vor, "check_vor")
 
 st.markdown("### 📋 Nach der Arbeit")
 df_nach = render_checklist(aufgaben_nach, "check_nach")
-
-# Hinweis statt Speicherung
-if st.button("✅ Checkliste abschließen"):
-    st.success("Checkliste abgeschlossen (wird nicht gespeichert).")
-from utils.helpers import zeige_notfallleiste
-zeige_notfallleiste()
+from utils.helpers import set_vollbild_hintergrund_url
+set_vollbild_hintergrund_url("https://www.kantar.com/-/media/project/kantar/global/articles/images/2022/how-to-create-a-questionnaire.jpg?h=614&iar=0&w=900&hash=C22436F9487A6B98889BDB3623FD6C84")
