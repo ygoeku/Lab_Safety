@@ -13,3 +13,26 @@ def ch_now(rounding='s'):
     ts = pd.Timestamp(current_time.replace(tzinfo=None))
     
     return ts.floor(rounding) if rounding else ts
+import streamlit as st
+
+def zeige_notfallleiste():
+    st.markdown("""
+        <style>
+        .emergency-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: red;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            z-index: 9999;
+        }
+        </style>
+        <div class="emergency-bar">
+            🚨 Notfallnummern: ZHAW 7070 | Ambulanz 144 | Polizei 117 | Feuerwehr 118 | REGA 1414 | Toxinfo 145
+        </div>
+    """, unsafe_allow_html=True)
