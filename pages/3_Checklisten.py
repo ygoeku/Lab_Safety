@@ -29,14 +29,14 @@ if not username:
 
 # ===== UI Setup =====
 st.title("🔬 Labor-Checkliste")
-st.markdown(f"**Eingeloggt als:** `{username}`")
+st.markdown(f"**Eingeloggt als:** {username}")
 st.markdown("Bitte füllen Sie die Checkliste vor und nach der Arbeit im Labor aus.\nFür jede Frage können Sie 'Ja', 'Nein' oder 'Teilweise' abhaken. Hinterlassen Sie ggf. eine Bemerkung.")
 
 set_vollbild_hintergrund_url("https://www.kantar.com/-/media/project/kantar/global/articles/images/2022/how-to-create-a-questionnaire.jpg?h=614&iar=0&w=900&hash=C22436F9487A6B98889BDB3623FD6C84")
 
 st.markdown("""
     <style>
-    .element-container:has(> div[data-testid=\"stDataEditorContainer\"]) {
+    .element-container:has(> div[data-testid="stDataEditorContainer"]) {
         overflow: visible !important;
     }
     table {
@@ -175,8 +175,17 @@ if not df_logbuch.empty:
             df_zeit = df_filtered[df_filtered["Zeitpunkt"] == zeitpunkt]
             if not df_zeit.empty:
                 st.markdown(f"### 🕒 Checkliste: {zeitpunkt.capitalize()}")
+
+                # Duplikate entfernen (letzte Antwort pro Person + Frage behalten)
                 df_zeit = df_zeit.drop_duplicates(subset=["Frage", "Name"], keep="last")
-                df_pivot = df_zeit.pivot(index="Frage", columns="Name", values=["Antwort", "Bemerkung"])
-                st.dataframe(df_pivot, use_container_width=True)
+
+                # Nach Name und Frage sortieren
+                df_zeit = df_zeit.sort_values(by=["Name", "Frage"])
+
+                # Nur die wichtigen Spalten anzeigen
+                st.dataframe(
+                    df_zeit[["Name", "Frage", "Antwort", "Bemerkung"]],
+                    use_container_width=True
+                )
 else:
     st.warning("Noch keine Daten im Logbuch gespeichert.")
