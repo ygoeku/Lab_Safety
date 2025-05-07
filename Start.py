@@ -1,62 +1,39 @@
+# ====== Start Init Block ======
+# This needs to copied on top of the entry point of the app (Start.py)
+
+import pandas as pd
+from utils.data_manager import DataManager
+from utils.login_manager import LoginManager
+
+# initialize the data manager
+data_manager = DataManager(fs_protocol='webdav', fs_root_folder="Lab_Safety")  # switch drive 
+
+# initialize the login manager
+login_manager = LoginManager(data_manager)
+login_manager.login_register()  # open login/register page
+
+# load the data from the persistent storage into the session state
+data_manager.load_user_data(
+    session_state_key='data_df', 
+    file_name='data.csv', 
+    initial_value = pd.DataFrame(), 
+    parse_dates = ['timestamp']
+    )
+# ====== End Init Block ======
+
+# ------------------------------------------------------------
+# Here starts the actual app, which was developed previously
 import streamlit as st
 
-st.set_page_config(page_title="Startseite", layout="wide")
 
-# --- Stil für Karten und Layout ---
-st.markdown("""
-    <style>
-    body {
-        background-color: #F0F2F6;
-        font-family: 'Arial', sans-serif;
-    }
-    .card {
-        background-color: white;
-        padding: 40px;
-        border-radius: 20px;
-        box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1);
-        text-align: center;
-        transition: all 0.3s ease;
-        cursor: pointer;
-    }
-    .card:hover {
-        transform: scale(1.05);
-        background-color: #E8F0FE;
-        box-shadow: 8px 8px 30px rgba(0, 0, 0, 0.2);
-    }
-    h1 {
-        text-align: center;
-        font-size: 50px;
-        color: #0A66C2;
-        margin-bottom: 50px;
-    }
-    .card-title {
-        font-size: 30px;
-        font-weight: bold;
-        margin-top: 20px;
-        color: #333333;
-    }
-    </style>
-""", unsafe_allow_html=True)
+st.title('Lab_Safety')
 
-# --- Titel ---
-st.markdown("<h1>🔬 Willkommen im Labor-Portal 🔬</h1>", unsafe_allow_html=True)
+name = st.session_state.get('name')
+st.markdown(f"✨ Hallo {name}! ✨")
+st.markdown("🧪 Die Anwendung unterstützt Sie dabei, Sicherheits- und Hygienestandards im Labor einzuhalten und Aufgaben strukturiert zu dokumentieren.")
 
-# --- Drei Karten nebeneinander ---
-col1, col2, col3 = st.columns(3)
+# Add some safety advice
+st.info("""Diese Anwendung dient der Unterstützung bei der Einhaltung von Sicherheits- und Hygienerichtlinien. 
+Sie ersetzt jedoch keine offizielle Sicherheitsunterweisung oder persönliche Schutzausrüstung.""")
 
-with col1:
-    if st.button("🧪 Allgemeine Regeln im Labor", use_container_width=True):
-        st.switch_page("pages/2_Laborsicherheit.py")
-
-with col2:
-    if st.button("✅ Checkliste", use_container_width=True):
-        st.switch_page("pages/3_Checklisten.py")
-
-with col3:
-    if st.button("📊 Statistik", use_container_width=True):
-        st.switch_page("pages/4_Statistik der Checkliste.py")
-
-# --- Notfallleiste ---
-from utils.helpers import zeige_notfallleiste
-zeige_notfallleiste()
-from utils.helpers import set_vollbild_hintergrund_url
+st.write("Diese App wurde von Yasemin Gökuguz und Elena Avkova im Rahmen des Moduls 'BMLD Informatik 2' an der ZHAW entwickelt.")
