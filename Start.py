@@ -1,40 +1,62 @@
-import pandas as pd
 import streamlit as st
-from utils.data_manager import DataManager
-from utils.login_manager import LoginManager
 
-st.set_page_config(page_title="Start – Labor Checklisten-App", layout="centered")
+st.set_page_config(page_title="Startseite", layout="wide")
 
-# initialize the data manager
-data_manager = DataManager(fs_protocol='webdav', fs_root_folder="Lab_Safety")
+# --- Stil für Karten und Layout ---
+st.markdown("""
+    <style>
+    body {
+        background-color: #F0F2F6;
+        font-family: 'Arial', sans-serif;
+    }
+    .card {
+        background-color: white;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    .card:hover {
+        transform: scale(1.05);
+        background-color: #E8F0FE;
+        box-shadow: 8px 8px 30px rgba(0, 0, 0, 0.2);
+    }
+    h1 {
+        text-align: center;
+        font-size: 50px;
+        color: #0A66C2;
+        margin-bottom: 50px;
+    }
+    .card-title {
+        font-size: 30px;
+        font-weight: bold;
+        margin-top: 20px;
+        color: #333333;
+    }
+    </style>
+""", unsafe_allow_html=True)
 
-# initialize the login manager and open login/register tabs
-login_manager = LoginManager(data_manager)
-login_manager.login_register()
+# --- Titel ---
+st.markdown("<h1>🔬 Willkommen im Labor-Portal 🔬</h1>", unsafe_allow_html=True)
 
-# Wenn Login erfolgreich → Benutzername in Session speichern & Daten laden
-if st.session_state.get("authentication_status") is True:
-    st.session_state["user"] = st.session_state.get("username")
+# --- Drei Karten nebeneinander ---
+col1, col2, col3 = st.columns(3)
 
-    # Nur laden, wenn logbuch_df noch nicht geladen wurde
-    data_manager.load_app_data(
-        session_state_key='logbuch_df',
-        file_name='logbuch.csv',
-        initial_value=pd.DataFrame(columns=["Name", "Datum", "Uhrzeit", "Zeitpunkt", "Frage", "Antwort", "Bemerkung"]),
-    )
+with col1:
+    if st.button("🧪 Allgemeine Regeln im Labor", use_container_width=True):
+        st.switch_page("pages/2_Laborsicherheit.py")
 
-    # ===== EINMALIGE Willkommensanzeige =====
-    st.title('Lab_Safety')
+with col2:
+    if st.button("✅ Checkliste", use_container_width=True):
+        st.switch_page("pages/3_Checklisten.py")
 
-    name = st.session_state["user"]
-    st.markdown(f"✨ Hallo **{name}!** ✨")
+with col3:
+    if st.button("📊 Statistik", use_container_width=True):
+        st.switch_page("pages/4_Statistik der Checkliste.py")
 
-    st.markdown("🧪 Die Anwendung unterstützt Sie dabei, Sicherheits- und Hygienestandards im Labor einzuhalten und Aufgaben strukturiert zu dokumentieren.")
-
-    st.info("""Diese Anwendung dient der Unterstützung bei der Einhaltung von Sicherheits- und Hygienerichtlinien. 
-    Sie ersetzt jedoch keine offizielle Sicherheitsunterweisung oder persönliche Schutzausrüstung.""")
-
-    st.write("Diese App wurde von Yasemin Gökuguz und Elena Avkova im Rahmen des Moduls 'BMLD Informatik 2' an der ZHAW entwickelt.")
-
-else:
-    st.warning("Bitte melden Sie sich zuerst an oder registrieren Sie sich.")
+# --- Notfallleiste ---
+from utils.helpers import zeige_notfallleiste
+zeige_notfallleiste()
+from utils.helpers import set_vollbild_hintergrund_url
