@@ -121,7 +121,6 @@ if st.button("💾 Checkliste speichern"):
     new_entries = pd.DataFrame(rows)
     st.session_state["logbuch_df"] = pd.concat([logbuch_df, new_entries], ignore_index=True)
 
-    # ✅ Hier wurde die Methode korrigiert
     data_manager.save_data("logbuch_df")
 
     st.success("✅ Checkliste erfolgreich gespeichert!")
@@ -131,15 +130,19 @@ st.markdown("---")
 st.markdown("## 📅 Gespeicherte Checklisten durchsuchen")
 
 filter_datum = st.date_input("Datum auswählen", datetime.date.today())
-filter_name = st.text_input("Optional: Benutzername filtern")
+
+# Alle Namen im Dropdown (inkl. "Alle")
+alle_namen = sorted(logbuch_df["Name"].unique()) if not logbuch_df.empty else []
+filter_name = st.selectbox("Benutzer auswählen", options=["Alle"] + alle_namen)
 
 df_logbuch = st.session_state["logbuch_df"]
+
 if not df_logbuch.empty:
     df_logbuch["Datum"] = pd.to_datetime(df_logbuch["Datum"]).dt.date
     df_filtered = df_logbuch[df_logbuch["Datum"] == filter_datum]
 
-    if filter_name:
-        df_filtered = df_filtered[df_filtered["Name"].str.contains(filter_name, case=False)]
+    if filter_name != "Alle":
+        df_filtered = df_filtered[df_filtered["Name"] == filter_name]
 
     if df_filtered.empty:
         st.info("Keine Checklisten für dieses Datum gefunden.")
