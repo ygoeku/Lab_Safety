@@ -1,39 +1,32 @@
-# ====== Start Init Block ======
-# This needs to copied on top of the entry point of the app (Start.py)
-
+import streamlit as st
 import pandas as pd
 from utils.data_manager import DataManager
 from utils.login_manager import LoginManager
 
-# initialize the data manager
-data_manager = DataManager(fs_protocol='webdav', fs_root_folder="Lab_Safety")  # switch drive 
+# ===== Konfiguration der Seite =====
+st.set_page_config(page_title="Labor App Login", layout="wide")
 
-# initialize the login manager
+# ===== Initialisierung von DataManager und LoginManager =====
+data_manager = DataManager(fs_protocol='webdav', fs_root_folder="Lab_Safety")
 login_manager = LoginManager(data_manager)
-login_manager.login_register()  # open login/register page
 
-# load the data from the persistent storage into the session state
-data_manager.load_user_data(
-    session_state_key='data_df', 
-    file_name='data.csv', 
-    initial_value = pd.DataFrame(), 
-    parse_dates = ['timestamp']
-    )
-# ====== End Init Block ======
+# ===== Login anzeigen (bei Bedarf) =====
+login_manager.login_register()
 
-# ------------------------------------------------------------
-# Here starts the actual app, which was developed previously
-import streamlit as st
+# ===== Zugriff blockieren, wenn nicht eingeloggt =====
+if not login_manager.is_logged_in():
+    st.stop()
 
+# ===== Begrüßung nach Login =====
+name = st.session_state.get("name", "Nutzer")
 
-st.title('Lab_Safety')
+st.title("Lab_Safety")
+st.markdown(f"✨ Hallo **{name}**! Willkommen im Labor-Portal. ✨")
+st.markdown("🧪 Diese Anwendung hilft Ihnen, Sicherheits- und Hygienestandards im Labor einzuhalten und Aufgaben strukturiert zu dokumentieren.")
 
-name = st.session_state.get('name')
-st.markdown(f"✨ Hallo {name}! ✨")
-st.markdown("🧪 Die Anwendung unterstützt Sie dabei, Sicherheits- und Hygienestandards im Labor einzuhalten und Aufgaben strukturiert zu dokumentieren.")
+st.info("""
+Diese Anwendung dient zur Unterstützung bei der Einhaltung von Sicherheits- und Hygienerichtlinien. 
+Sie ersetzt jedoch keine offizielle Sicherheitsunterweisung oder persönliche Schutzausrüstung.
+""")
 
-# Add some safety advice
-st.info("""Diese Anwendung dient der Unterstützung bei der Einhaltung von Sicherheits- und Hygienerichtlinien. 
-Sie ersetzt jedoch keine offizielle Sicherheitsunterweisung oder persönliche Schutzausrüstung.""")
-
-st.write("Diese App wurde von Yasemin Gökuguz und Elena Avkova im Rahmen des Moduls 'BMLD Informatik 2' an der ZHAW entwickelt.")
+st.write("Diese App wurde von Yasemin Gökuguz und Elena Avkova im Rahmen des Moduls **'BMLD Informatik 2'** an der ZHAW entwickelt.")
