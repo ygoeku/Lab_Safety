@@ -136,6 +136,7 @@ alle_namen = sorted(logbuch_df["Name"].unique()) if not logbuch_df.empty else []
 filter_name = st.selectbox("Benutzer auswählen", options=["Alle"] + alle_namen)
 
 df_logbuch = st.session_state["logbuch_df"]
+st.write("Verfügbare Benutzerdaten:", logbuch_df["Name"].unique())
 
 if not df_logbuch.empty:
     df_logbuch["Datum"] = pd.to_datetime(df_logbuch["Datum"]).dt.date
