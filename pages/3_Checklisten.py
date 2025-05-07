@@ -71,7 +71,7 @@ def load_existing_answers(zeitpunkt):
         (logbuch_df["Name"] == username) &
         (logbuch_df["Datum"] == today_str) &
         (logbuch_df["Zeitpunkt"] == zeitpunkt)
-    ]
+    ].drop_duplicates(subset=["Frage"], keep="last")
 
 def render_checklist_with_restore(tasks, key, zeitpunkt):
     existing_df = load_existing_answers(zeitpunkt)
@@ -119,8 +119,20 @@ if st.button("💾 Checkliste speichern"):
     extract_rows(df_nach, "nachher")
 
     new_entries = pd.DataFrame(rows)
-    st.session_state["logbuch_df"] = pd.concat([logbuch_df, new_entries], ignore_index=True)
 
+    # Alte Einträge mit identischer Kombination ersetzen
+    combined = logbuch_df.copy()
+    for _, new_row in new_entries.iterrows():
+        mask = (
+            (combined["Name"] == new_row["Name"]) &
+            (combined["Datum"] == new_row["Datum"]) &
+            (combined["Zeitpunkt"] == new_row["Zeitpunkt"]) &
+            (combined["Frage"] == new_row["Frage"])
+        )
+        combined = combined[~mask]  # entferne alte
+    combined = pd.concat([combined, new_entries], ignore_index=True)
+
+    st.session_state["logbuch_df"] = combined
     data_manager.save_data("logbuch_df")
 
     st.success("✅ Checkliste erfolgreich gespeichert!")
@@ -131,12 +143,10 @@ st.markdown("## 📅 Gespeicherte Checklisten durchsuchen")
 
 filter_datum = st.date_input("Datum auswählen", datetime.date.today())
 
-# Alle Namen im Dropdown (inkl. "Alle")
 alle_namen = sorted(logbuch_df["Name"].unique()) if not logbuch_df.empty else []
 filter_name = st.selectbox("Benutzer auswählen", options=["Alle"] + alle_namen)
 
 df_logbuch = st.session_state["logbuch_df"]
-st.write("Verfügbare Benutzerdaten:", logbuch_df["Name"].unique())
 
 if not df_logbuch.empty:
     df_logbuch["Datum"] = pd.to_datetime(df_logbuch["Datum"]).dt.date
@@ -152,6 +162,7 @@ if not df_logbuch.empty:
             df_zeit = df_filtered[df_filtered["Zeitpunkt"] == zeitpunkt]
             if not df_zeit.empty:
                 st.markdown(f"### 🕒 Checkliste: {zeitpunkt.capitalize()}")
+                df_zeit = df_zeit.drop_duplicates(subset=["Frage", "Name"], keep="last")
                 df_pivot = df_zeit.pivot(index="Frage", columns="Name", values=["Antwort", "Bemerkung"])
                 st.dataframe(df_pivot, use_container_width=True)
 else:
