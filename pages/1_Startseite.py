@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="Startseite", layout="wide")
 
-# --- Schöner Hintergrund ---
+# --- Stil für Karten und Layout ---
 st.markdown("""
     <style>
     body {
@@ -44,15 +44,19 @@ st.markdown("<h1>🔬 Willkommen im Labor-Portal 🔬</h1>", unsafe_allow_html=T
 # --- Drei Karten nebeneinander ---
 col1, col2, col3 = st.columns(3)
 
-# --- Erste Karte: Laborsicherheit ---
 with col1:
     if st.button("🧪 Allgemeine Regeln im Labor", use_container_width=True):
         st.switch_page("pages/2_Laborsicherheit.py")
 
-# --- Zweite Karte: Checkliste ---
 with col2:
     if st.button("✅ Checkliste", use_container_width=True):
         st.switch_page("pages/3_Checklisten.py")
+
+with col3:
+    if st.button("📊 Statistik", use_container_width=True):
+        st.switch_page("pages/4_Statistik der Checkliste.py")
+
+# --- Notfallleiste ---
 from utils.helpers import zeige_notfallleiste
 zeige_notfallleiste()
 from utils.helpers import set_vollbild_hintergrund_url
