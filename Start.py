@@ -14,7 +14,7 @@ login_manager = LoginManager(data_manager)
 login_manager.login_register()
 
 # ===== Zugriff blockieren, wenn nicht eingeloggt =====
-if not login_manager.is_logged_in():
+if "username" not in st.session_state and "user" not in st.session_state:
     st.stop()
 
 # ===== Begrüßung nach Login =====
