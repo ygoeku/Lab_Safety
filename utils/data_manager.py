@@ -111,6 +111,10 @@ class DataManager:
             return DataHandler(self.fs, posixpath.join(self.fs_root_folder, subfolder))
 
     def load_app_data(self, session_state_key, file_name, initial_value=None, **load_args):
+    logbuch_handler = data_manager._get_data_handler()
+    logbuch_path = logbuch_handler.join(data_manager.fs_root_folder, 'logbuch.csv')
+    st.write("📁 Logbuch-Pfad:", logbuch_path)
+
         """
         Load application data from a file and store it in the Streamlit session state.
 
