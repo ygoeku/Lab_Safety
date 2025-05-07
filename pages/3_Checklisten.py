@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import datetime
-import os
 
 st.set_page_config(page_title="Labor-Checkliste", layout="wide")
 
@@ -13,14 +12,17 @@ from utils.helpers import set_vollbild_hintergrund_url
 data_manager = DataManager(fs_protocol='webdav', fs_root_folder="Lab_Safety")
 login_manager = LoginManager(data_manager)
 
-data_manager.load_app_data(
-    session_state_key='logbuch_df',
-    file_name='logbuch.csv',
-    initial_value=pd.DataFrame(columns=["Name", "Datum", "Uhrzeit", "Zeitpunkt", "Frage", "Antwort", "Bemerkung"]),
+# Immer CSV laden + registrieren
+dh = data_manager._get_data_handler()
+logbuch_df = dh.load(
+    "logbuch.csv",
+    initial_value=pd.DataFrame(columns=["Name", "Datum", "Uhrzeit", "Zeitpunkt", "Frage", "Antwort", "Bemerkung"])
 )
+st.session_state["logbuch_df"] = logbuch_df
+data_manager.app_data_reg["logbuch_df"] = "logbuch.csv"
 
 # ===== Login überprüfen =====
-username = st.session_state.get("user")
+username = st.session_state.get("user") or st.session_state.get("username")
 if not username:
     st.error("⛔ Bitte zuerst auf der Startseite einloggen.")
     st.stop()
@@ -102,25 +104,37 @@ df_nach = render_checklist_with_restore(aufgaben_nach, "check_nach", "nachher")
 if st.button("💾 Checkliste speichern"):
     rows = []
 
-    def extract_rows(df, zeitpunkt):
-        for _, row in df.iterrows():
-            antwort = "Ja" if row["Ja"] else "Nein" if row["Nein"] else "Teilweise" if row["Teilweise"] else ""
-            rows.append({
-                "Name": username,
-                "Datum": today_str,
-                "Uhrzeit": now_str,
-                "Zeitpunkt": zeitpunkt,
-                "Frage": row["Frage"],
-                "Antwort": antwort,
-                "Bemerkung": row["Bemerkung"]
-            })
+    existing_vor = load_existing_answers("vorher")
+    existing_nach = load_existing_answers("nachher")
 
-    extract_rows(df_vor, "vorher")
-    extract_rows(df_nach, "nachher")
+    def extract_rows(df_input, zeitpunkt, existing_df):
+        for _, row in df_input.iterrows():
+            frage = row["Frage"]
+            bemerkung = row["Bemerkung"]
+            antwort = "Ja" if row["Ja"] else "Nein" if row["Nein"] else "Teilweise" if row["Teilweise"] else ""
+
+            if not antwort:
+                old = existing_df[existing_df["Frage"] == frage]
+                if not old.empty:
+                    antwort = old.iloc[0]["Antwort"]
+                    bemerkung = old.iloc[0]["Bemerkung"]
+
+            if antwort:
+                rows.append({
+                    "Name": username,
+                    "Datum": today_str,
+                    "Uhrzeit": now_str,
+                    "Zeitpunkt": zeitpunkt,
+                    "Frage": frage,
+                    "Antwort": antwort,
+                    "Bemerkung": bemerkung
+                })
+
+    extract_rows(df_vor, "vorher", existing_vor)
+    extract_rows(df_nach, "nachher", existing_nach)
 
     new_entries = pd.DataFrame(rows)
 
-    # Alte Einträge mit identischer Kombination ersetzen
     combined = logbuch_df.copy()
     for _, new_row in new_entries.iterrows():
         mask = (
@@ -129,21 +143,20 @@ if st.button("💾 Checkliste speichern"):
             (combined["Zeitpunkt"] == new_row["Zeitpunkt"]) &
             (combined["Frage"] == new_row["Frage"])
         )
-        combined = combined[~mask]  # entferne alte
+        combined = combined[~mask]
     combined = pd.concat([combined, new_entries], ignore_index=True)
 
     st.session_state["logbuch_df"] = combined
     data_manager.save_data("logbuch_df")
 
-    st.success("✅ Checkliste erfolgreich gespeichert!")
+    st.success("✅ Antworten gespeichert. Vorherige Einträge bleiben erhalten.")
 
 # ===== Filterbereich =====
 st.markdown("---")
 st.markdown("## 📅 Gespeicherte Checklisten durchsuchen")
 
 filter_datum = st.date_input("Datum auswählen", datetime.date.today())
-
-alle_namen = sorted(logbuch_df["Name"].unique()) if not logbuch_df.empty else []
+alle_namen = sorted(set(logbuch_df["Name"].unique()).union({username}))
 filter_name = st.selectbox("Benutzer auswählen", options=["Alle"] + alle_namen)
 
 df_logbuch = st.session_state["logbuch_df"]
