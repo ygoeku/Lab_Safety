@@ -70,7 +70,7 @@ logbuch_df = st.session_state["logbuch_df"]
 # ===== Funktionen =====
 def load_existing_answers(zeitpunkt):
     return logbuch_df[
-        (logbuch_df["Name"] == username) &
+        (logbuch_df["Name"] == username) & 
         (logbuch_df["Datum"] == today_str) &
         (logbuch_df["Zeitpunkt"] == zeitpunkt)
     ].drop_duplicates(subset=["Frage"], keep="last")
@@ -141,7 +141,8 @@ if st.button("💾 Checkliste speichern"):
             (combined["Name"] == new_row["Name"]) &
             (combined["Datum"] == new_row["Datum"]) &
             (combined["Zeitpunkt"] == new_row["Zeitpunkt"]) &
-            (combined["Frage"] == new_row["Frage"])
+            (combined["Frage"] == new_row["Frage"]) &
+            (combined["Uhrzeit"] == new_row["Uhrzeit"])
         )
         combined = combined[~mask]
     combined = pd.concat([combined, new_entries], ignore_index=True)
@@ -176,20 +177,35 @@ if not df_logbuch.empty:
             if not df_zeit.empty:
                 st.markdown(f"### 🕒 Checkliste: {zeitpunkt.capitalize()}")
 
-                # Duplikate entfernen (letzte Antwort pro Person + Frage behalten)
-                df_zeit = df_zeit.drop_duplicates(subset=["Frage", "Name"], keep="last")
+                df_zeit = df_zeit.sort_values(by=["Name", "Frage", "Uhrzeit"])
 
-                # Nach Name und Frage sortieren
-                df_zeit = df_zeit.sort_values(by=["Name", "Frage"])
+                for _, row in df_zeit.iterrows():
+                    frage = row["Frage"]
+                    antwort = row["Antwort"]
+                    bemerkung = row["Bemerkung"]
+                    name = row["Name"]
+                    uhrzeit = row["Uhrzeit"]
 
-                # Nur die wichtigen Spalten anzeigen
-                st.dataframe(
-                    df_zeit[["Name", "Frage", "Antwort", "Bemerkung"]],
-                    use_container_width=True
-                )
+                    if bemerkung:
+                        label = f":orange-badge[⚠️ Needs review – {uhrzeit}]"
+                    elif pd.to_datetime(row["Datum"]) == datetime.date.today():
+                        label = f":blue-badge[🆕 New – {uhrzeit}]"
+                    else:
+                        label = f":green-badge[:material/check: Success – {uhrzeit}]"
+
+                    st.markdown(f"""
+                    <div style="border:1px solid #ddd; border-radius:10px; padding:12px; margin-bottom:10px;">
+                        <b>👤 {name}</b><br>
+                        <b>❓ Frage:</b> {frage}<br>
+                        <b>✅ Antwort:</b> {antwort}<br>
+                        <b>📝 Bemerkung:</b> {bemerkung if bemerkung else '-'}<br>
+                        {label}
+                    </div>
+                    """, unsafe_allow_html=True)
 else:
     st.warning("Noch keine Daten im Logbuch gespeichert.")
 
+# ===== Notfall-Balken =====
 st.markdown("""
     <div style='position:fixed; bottom:0; left:0; width:100%; background-color:#d32f2f; color:white; padding:10px; font-weight:bold; text-align:center; z-index:1000;'>
         🚨 Notfallnummern: ZHAW 7070 | Ambulanz 144 | Polizei 117 | Feuerwehr 118 | REGA 1414 | Toxinfo 145
