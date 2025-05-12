@@ -121,23 +121,14 @@ if st.button("💾 Checkliste speichern"):
     extract_rows(df_nach, "nachher", existing_nach)
 
     new_entries = pd.DataFrame(rows)
-
-    combined = logbuch_df.copy()
-    for _, new_row in new_entries.iterrows():
-        mask = (
-            (combined["Name"] == new_row["Name"]) &
-            (combined["Datum"] == new_row["Datum"]) &
-            (combined["Zeitpunkt"] == new_row["Zeitpunkt"]) &
-            (combined["Frage"] == new_row["Frage"]) &
-            (combined["Uhrzeit"] == new_row["Uhrzeit"])
-        )
-        combined = combined[~mask]
-    combined = pd.concat([combined, new_entries], ignore_index=True)
+    combined = pd.concat([logbuch_df, new_entries], ignore_index=True)
 
     st.session_state["logbuch_df"] = combined
     data_manager.save_data("logbuch_df")
 
     st.success("✅ Antworten gespeichert. Vorherige Einträge bleiben erhalten.")
+    st.markdown("### 🔍 Neue gespeicherte Einträge:")
+    st.dataframe(new_entries, use_container_width=True)
 
 # ===== Filterbereich =====
 st.markdown("---")
@@ -165,7 +156,6 @@ if not df_logbuch.empty:
                 st.markdown(f"### 🕒 Checkliste: {zeitpunkt.capitalize()}")
 
                 df_zeit = df_zeit.sort_values(by=["Name", "Frage", "Uhrzeit"])
-
                 df_zeit["Bemerkung"] = df_zeit["Bemerkung"].fillna("-")
 
                 def create_status(row):
