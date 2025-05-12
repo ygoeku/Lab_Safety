@@ -189,3 +189,9 @@ if not df_logbuch.empty:
                 )
 else:
     st.warning("Noch keine Daten im Logbuch gespeichert.")
+
+st.markdown("""
+    <div style='position:fixed; bottom:0; left:0; width:100%; background-color:#d32f2f; color:white; padding:10px; font-weight:bold; text-align:center; z-index:1000;'>
+        🚨 Notfallnummern: ZHAW 7070 | Ambulanz 144 | Polizei 117 | Feuerwehr 118 | REGA 1414 | Toxinfo 145
+    </div>
+""", unsafe_allow_html=True)
