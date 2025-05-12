@@ -166,39 +166,28 @@ if not df_logbuch.empty:
 
                 df_zeit = df_zeit.sort_values(by=["Name", "Frage", "Uhrzeit"])
 
-                for _, row in df_zeit.iterrows():
-                    name = row["Name"]
-                    frage = row["Frage"]
-                    antwort = row["Antwort"]
-                    bemerkung = row["Bemerkung"]
-                    uhrzeit = row["Uhrzeit"]
-                    datum = row["Datum"]
+                df_zeit["Bemerkung"] = df_zeit["Bemerkung"].fillna("-")
 
-                    if pd.isna(bemerkung) or str(bemerkung).strip() == "":
-                        bemerkung_clean = "-"
+                def create_status(row):
+                    if row["Bemerkung"].strip() != "-":
+                        return f"Needs review – {row['Uhrzeit']}"
+                    elif row["Datum"] == datetime.date.today():
+                        return f"New – {row['Uhrzeit']}"
                     else:
-                        bemerkung_clean = bemerkung
+                        return f"Success – {row['Uhrzeit']}"
 
-                    # Badge bestimmen
-                    if bemerkung_clean != "-":
-                        badge = f"⚠️ *Needs review* – {uhrzeit}"
-                    elif pd.to_datetime(datum) == datetime.date.today():
-                        badge = f"🆕 *New* – {uhrzeit}"
-                    else:
-                        badge = f"✅ *Success* – {uhrzeit}"
+                df_zeit["Status"] = df_zeit.apply(create_status, axis=1)
 
-                    st.markdown(f"""
-**👤 {name}**
-- ❓ **Frage**: {frage}
-- ✅ **Antwort**: {antwort}
-- 📝 **Bemerkung**: {bemerkung_clean}
-- 🏷️ {badge}
-""")
-                    st.markdown("---")
+                st.dataframe(
+                    df_zeit[["Name", "Frage", "Antwort", "Bemerkung", "Status"]],
+                    use_container_width=True
+                )
 else:
     st.warning("Noch keine Daten im Logbuch gespeichert.")
 
-# ===== Notfallbalken =====
+# ===== Notfall-Balken =====
 st.markdown("""
-    🚨 **Notfallnummern:** ZHAW 7070 | Ambulanz 144 | Polizei 117 | Feuerwehr 118 | REGA 1414 | Toxinfo 145
-""")
+    <div style='position:fixed; bottom:0; left:0; width:100%; background-color:#d32f2f; color:white; padding:10px; font-weight:bold; text-align:center; z-index:1000;'>
+        🚨 Notfallnummern: ZHAW 7070 | Ambulanz 144 | Polizei 117 | Feuerwehr 118 | REGA 1414 | Toxinfo 145
+    </div>
+""", unsafe_allow_html=True)
