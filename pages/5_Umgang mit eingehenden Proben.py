@@ -31,7 +31,7 @@ if antwort_4 == "Nein":
     st.stop()
 
 # Schritt 5
-antwort_5 = st.radio("📌 Ist das richtige Gefäß verwendet und Volumen ausreichend?", ["Ja", "Nein"])
+antwort_5 = st.radio("📌 Ist das richtige Gefäss verwendet und Volumen ausreichend?", ["Ja", "Nein"])
 if antwort_5 == "Nein":
     st.warning("⚠️ Material eventuell ungeeignet. Entscheidung je nach Analysebereich.")
     st.stop()
