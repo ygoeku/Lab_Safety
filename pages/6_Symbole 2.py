@@ -50,19 +50,19 @@ with cols[1]:
     st.markdown("""
     <div class='symbol'>
         <img src='/mnt/data/handschutz.jpg'>
-        <div class='symbol-text'>Handschutz tragen</div>
+        <div class='symbol-text'>handschutz</div>
     </div>""", unsafe_allow_html=True)
 with cols[2]:
     st.markdown("""
     <div class='symbol'>
         <img src='/mnt/data/labormantel.jpg'>
-        <div class='symbol-text'>Labormantel tragen</div>
+        <div class='symbol-text'>labormantel</div>
     </div>""", unsafe_allow_html=True)
 with cols[3]:
     st.markdown("""
     <div class='symbol'>
         <img src='/mnt/data/essen_und_trinken_verboten.jpg'>
-        <div class='symbol-text'>Essen & Trinken verboten</div>
+        <div class='symbol-text'>essen_und_trinken_verboten</div>
     </div>""", unsafe_allow_html=True)
 st.markdown("</div>", unsafe_allow_html=True)
 
@@ -74,24 +74,24 @@ with cols[0]:
     st.markdown("""
     <div class='symbol'>
         <img src='/mnt/data/Augenspüleinrichtung.jpg'>
-        <div class='symbol-text'>Augendusche</div>
+        <div class='symbol-text'>augenschutz</div>
     </div>""", unsafe_allow_html=True)
 with cols[1]:
     st.markdown("""
     <div class='symbol'>
         <img src='/mnt/data/erste_hilfe_start.jpg'>
-        <div class='symbol-text'>Erste Hilfe</div>
+        <div class='symbol-text'>erste_hilfe_start</div>
     </div>""", unsafe_allow_html=True)
 with cols[2]:
     st.markdown("""
     <div class='symbol'>
         <img src='/mnt/data/notausgang.jpg'>
-        <div class='symbol-text'>Notausgang</div>
+        <div class='symbol-text'>notausgang</div>
     </div>""", unsafe_allow_html=True)
 with cols[3]:
     st.markdown("""
     <div class='symbol'>
         <img src='/mnt/data/notruftelefon.jpg'>
-        <div class='symbol-text'>Notruftelefon</div>
+        <div class='symbol-text'>notruftelefon</div>
     </div>""", unsafe_allow_html=True)
 st.markdown("</div>", unsafe_allow_html=True)
