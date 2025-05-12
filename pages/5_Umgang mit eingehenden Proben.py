@@ -38,3 +38,9 @@ if antwort_5 == "Nein":
 
 # Abschluss
 st.success("✅ Alle Kriterien erfüllt. Die Probe kann an die Analytik weitergegeben werden.")
+
+from utils.helpers import set_vollbild_hintergrund_url  # falls du eine helpers.py hast
+
+# Falls du keine helpers.py hast, einfach Funktion direkt reinkopieren (siehe oben)
+
+set_vollbild_hintergrund_url("https://cardinalhealth.scene7.com/is/image/corpmarketdms7prod/article-featured-2LAB22-2109113-simplifying-specimen-collection-59194963_l")
