@@ -12,7 +12,6 @@ from utils.helpers import set_vollbild_hintergrund_url
 data_manager = DataManager(fs_protocol='webdav', fs_root_folder="Lab_Safety")
 login_manager = LoginManager(data_manager)
 
-# Immer CSV laden + registrieren
 dh = data_manager._get_data_handler()
 logbuch_df = dh.load(
     "logbuch.csv",
@@ -21,7 +20,7 @@ logbuch_df = dh.load(
 st.session_state["logbuch_df"] = logbuch_df
 data_manager.app_data_reg["logbuch_df"] = "logbuch.csv"
 
-# ===== Login überprüfen =====
+# ===== Login prüfen =====
 username = st.session_state.get("user") or st.session_state.get("username")
 if not username:
     st.error("⛔ Bitte zuerst auf der Startseite einloggen.")
@@ -30,20 +29,9 @@ if not username:
 # ===== UI Setup =====
 st.title("🔬 Labor-Checkliste")
 st.markdown(f"**Eingeloggt als:** {username}")
-st.markdown("Bitte füllen Sie die Checkliste vor und nach der Arbeit im Labor aus.\nFür jede Frage können Sie 'Ja', 'Nein' oder 'Teilweise' abhaken. Hinterlassen Sie ggf. eine Bemerkung.")
+st.markdown("Bitte füllen Sie die Checkliste vor und nach der Arbeit im Labor aus.")
 
 set_vollbild_hintergrund_url("https://www.kantar.com/-/media/project/kantar/global/articles/images/2022/how-to-create-a-questionnaire.jpg?h=614&iar=0&w=900&hash=C22436F9487A6B98889BDB3623FD6C84")
-
-st.markdown("""
-    <style>
-    .element-container:has(> div[data-testid="stDataEditorContainer"]) {
-        overflow: visible !important;
-    }
-    table {
-        font-size: 16px;
-    }
-    </style>
-""", unsafe_allow_html=True)
 
 # ===== Fragen =====
 aufgaben_vor = [
@@ -62,7 +50,6 @@ aufgaben_nach = [
     "Laborkittel ausgezogen?", "Evtl. Schutzbrille und Schutzmaske ausgezogen?", "Hände gründlich gewaschen/desinfiziert?"
 ]
 
-# Zeitdaten
 today_str = datetime.date.today().isoformat()
 now_str = datetime.datetime.now().strftime("%H:%M:%S")
 logbuch_df = st.session_state["logbuch_df"]
@@ -70,7 +57,7 @@ logbuch_df = st.session_state["logbuch_df"]
 # ===== Funktionen =====
 def load_existing_answers(zeitpunkt):
     return logbuch_df[
-        (logbuch_df["Name"] == username) & 
+        (logbuch_df["Name"] == username) &
         (logbuch_df["Datum"] == today_str) &
         (logbuch_df["Zeitpunkt"] == zeitpunkt)
     ].drop_duplicates(subset=["Frage"], keep="last")
@@ -180,34 +167,38 @@ if not df_logbuch.empty:
                 df_zeit = df_zeit.sort_values(by=["Name", "Frage", "Uhrzeit"])
 
                 for _, row in df_zeit.iterrows():
+                    name = row["Name"]
                     frage = row["Frage"]
                     antwort = row["Antwort"]
                     bemerkung = row["Bemerkung"]
-                    name = row["Name"]
                     uhrzeit = row["Uhrzeit"]
+                    datum = row["Datum"]
 
-                    if bemerkung:
-                        label = f":orange-badge[⚠️ Needs review – {uhrzeit}]"
-                    elif pd.to_datetime(row["Datum"]) == datetime.date.today():
-                        label = f":blue-badge[🆕 New – {uhrzeit}]"
+                    if pd.isna(bemerkung) or str(bemerkung).strip() == "":
+                        bemerkung_clean = "-"
                     else:
-                        label = f":green-badge[:material/check: Success – {uhrzeit}]"
+                        bemerkung_clean = bemerkung
+
+                    # Badge bestimmen
+                    if bemerkung_clean != "-":
+                        badge = f"⚠️ *Needs review* – {uhrzeit}"
+                    elif pd.to_datetime(datum) == datetime.date.today():
+                        badge = f"🆕 *New* – {uhrzeit}"
+                    else:
+                        badge = f"✅ *Success* – {uhrzeit}"
 
                     st.markdown(f"""
-                    <div style="border:1px solid #ddd; border-radius:10px; padding:12px; margin-bottom:10px;">
-                        <b>👤 {name}</b><br>
-                        <b>❓ Frage:</b> {frage}<br>
-                        <b>✅ Antwort:</b> {antwort}<br>
-                        <b>📝 Bemerkung:</b> {bemerkung if bemerkung else '-'}<br>
-                        {label}
-                    </div>
-                    """, unsafe_allow_html=True)
+**👤 {name}**
+- ❓ **Frage**: {frage}
+- ✅ **Antwort**: {antwort}
+- 📝 **Bemerkung**: {bemerkung_clean}
+- 🏷️ {badge}
+""")
+                    st.markdown("---")
 else:
     st.warning("Noch keine Daten im Logbuch gespeichert.")
 
-# ===== Notfall-Balken =====
+# ===== Notfallbalken =====
 st.markdown("""
-    <div style='position:fixed; bottom:0; left:0; width:100%; background-color:#d32f2f; color:white; padding:10px; font-weight:bold; text-align:center; z-index:1000;'>
-        🚨 Notfallnummern: ZHAW 7070 | Ambulanz 144 | Polizei 117 | Feuerwehr 118 | REGA 1414 | Toxinfo 145
-    </div>
-""", unsafe_allow_html=True)
+    🚨 **Notfallnummern:** ZHAW 7070 | Ambulanz 144 | Polizei 117 | Feuerwehr 118 | REGA 1414 | Toxinfo 145
+""")
