@@ -1,97 +1,65 @@
 import streamlit as st
+import os
+from utils.helpers import zeige_notfallleiste
 
-st.set_page_config(page_title="Laborsymbole nach Kategorie", layout="wide")
+# --- Bilder-Ordner ---
+BILDER_ORDNER = "pages"
 
-# === Farbschema und Stil ===
-st.markdown("""
-<style>
-.section {
-    padding: 1.5em;
-    border-radius: 1em;
-    margin-bottom: 2em;
-}
-.blue-section {
-    background-color: #e3f2fd;
-}
-.green-section {
-    background-color: #e8f5e9;
-}
-.red-section {
-    background-color: #ffebee;
-}
-.symbol {
-    text-align: center;
-    padding: 1em;
-}
-.symbol img {
-    max-height: 120px;
-}
-.symbol-text {
-    margin-top: 0.5em;
-    font-weight: bold;
-    font-size: 1.1em;
-}
-</style>
-""", unsafe_allow_html=True)
+# --- Hilfsfunktion: Bild + Info ---
+def bild_mit_info(dateiname, beschreibung, key_suffix):
+    bildpfad = os.path.join(BILDER_ORDNER, dateiname)
+    if os.path.exists(bildpfad):
+        st.image(bildpfad, width=100)
+        if st.button("ℹ️ Mehr erfahren", key=f"info_{key_suffix}"):
+            st.info(beschreibung)
+    else:
+        st.error(f"Bild nicht gefunden: {bildpfad}")
 
-st.title("💡 Laborsymbole nach Bedeutung")
+# --- Style-Container ---
+def farbiger_container(farbe_hex, content_function):
+    st.markdown(f"""
+        <div style="background-color: {farbe_hex}; padding: 30px; border-radius: 10px;">
+    """, unsafe_allow_html=True)
+    content_function()
+    st.markdown("</div>", unsafe_allow_html=True)
 
-# === Sektion 1: Tägliche Pflichten ===
-st.markdown("<div class='section blue-section'>", unsafe_allow_html=True)
-st.subheader("🧪 Pflicht-Symbole (tägliche Arbeit)")
-cols = st.columns(4)
-with cols[0]:
-    st.markdown("""
-    <div class='symbol'>
-        <img src='/mnt/data/augenschutz.jpg'>
-        <div class='symbol-text'>Schutzbrille tragen</div>
-    </div>""", unsafe_allow_html=True)
-with cols[1]:
-    st.markdown("""
-    <div class='symbol'>
-        <img src='/mnt/data/handschutz.jpg'>
-        <div class='symbol-text'>handschutz</div>
-    </div>""", unsafe_allow_html=True)
-with cols[2]:
-    st.markdown("""
-    <div class='symbol'>
-        <img src='/mnt/data/labormantel.jpg'>
-        <div class='symbol-text'>labormantel</div>
-    </div>""", unsafe_allow_html=True)
-with cols[3]:
-    st.markdown("""
-    <div class='symbol'>
-        <img src='/mnt/data/essen_und_trinken_verboten.jpg'>
-        <div class='symbol-text'>essen_und_trinken_verboten</div>
-    </div>""", unsafe_allow_html=True)
-st.markdown("</div>", unsafe_allow_html=True)
+# --- Haupttitel ---
+st.markdown("<h1 style='text-align: center;'>🧪 Laborsymbole nach Bedeutung</h1>", unsafe_allow_html=True)
 
-# === Sektion 2: Erste Hilfe & Fluchtwege ===
-st.markdown("<div class='section green-section'>", unsafe_allow_html=True)
-st.subheader("🚨 Erste Hilfe & Flucht")
-cols = st.columns(4)
-with cols[0]:
-    st.markdown("""
-    <div class='symbol'>
-        <img src='/mnt/data/Augenspüleinrichtung.jpg'>
-        <div class='symbol-text'>augenschutz</div>
-    </div>""", unsafe_allow_html=True)
-with cols[1]:
-    st.markdown("""
-    <div class='symbol'>
-        <img src='/mnt/data/erste_hilfe_start.jpg'>
-        <div class='symbol-text'>erste_hilfe_start</div>
-    </div>""", unsafe_allow_html=True)
-with cols[2]:
-    st.markdown("""
-    <div class='symbol'>
-        <img src='/mnt/data/notausgang.jpg'>
-        <div class='symbol-text'>notausgang</div>
-    </div>""", unsafe_allow_html=True)
-with cols[3]:
-    st.markdown("""
-    <div class='symbol'>
-        <img src='/mnt/data/notruftelefon.jpg'>
-        <div class='symbol-text'>notruftelefon</div>
-    </div>""", unsafe_allow_html=True)
-st.markdown("</div>", unsafe_allow_html=True)
+# --- Pflichtsymbole (blau) ---
+with st.expander("🧪 Pflicht-Symbole (tägliche Arbeit)", expanded=True):
+    def inhalt_pflicht():
+        col1, col2, col3, col4 = st.columns(4)
+        with col1:
+            st.markdown("**Schutzbrille tragen**")
+            bild_mit_info("augenschutz.jpg", "Schutzbrillen verhindern Verletzungen der Augen beim Arbeiten mit Chemikalien oder gefährlichen Stoffen.", "schutzbrille")
+        with col2:
+            st.markdown("**Handschutz**")
+            bild_mit_info("handschutz.jpg", "Schutzhandschuhe schützen die Haut vor Chemikalien, biologischen Stoffen und mechanischen Gefahren.", "handschutz")
+        with col3:
+            st.markdown("**Labormantel**")
+            bild_mit_info("labormantel.jpg", "Ein Labormantel schützt die Haut und Kleidung vor Spritzern und Verunreinigungen.", "labormantel")
+        with col4:
+            st.markdown("**Essen & Trinken verboten**")
+            bild_mit_info("essen_und_trinken_verboten.jpg", "Im Labor ist Essen und Trinken verboten, um Kontamination und Vergiftungen zu verhindern.", "essen_verboten")
+    farbiger_container("#e6f0ff", inhalt_pflicht)
+
+# --- Erste Hilfe & Flucht (grün) ---
+with st.expander("🚨 Erste Hilfe & Flucht", expanded=True):
+    def inhalt_hilfe():
+        col1, col2, col3, col4 = st.columns(4)
+        with col1:
+            st.markdown("**Erste Hilfe**")
+            bild_mit_info("erste_hilfe_start.jpg", "Das Erste-Hilfe-Symbol weist auf wichtige Einrichtungen und Ausrüstung für medizinische Notfälle hin.", "erstehilfe")
+        with col2:
+            st.markdown("**Notausgang**")
+            bild_mit_info("notausgang.jpg", "Der Notausgang zeigt den schnellsten Fluchtweg im Falle eines Brandes oder einer Evakuierung an.", "notausgang")
+        with col3:
+            st.markdown("**Notruftelefon**")
+            bild_mit_info("notruftelefon.jpg", "Ein Notruftelefon ermöglicht schnelle Kontaktaufnahme mit Rettungsdiensten im Notfall.", "notruftelefon")
+        with col4:
+            st.empty()  # optional frei lassen
+    farbiger_container("#e6ffe6", inhalt_hilfe)
+
+# --- Notfallleiste (wie gehabt) ---
+zeige_notfallleiste()

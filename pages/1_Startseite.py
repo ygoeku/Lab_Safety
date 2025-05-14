@@ -11,9 +11,9 @@ st.markdown("""
     }
     .card {
         background-color: white;
-        padding: 40px;
-        border-radius: 20px;
-        box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.1);
         text-align: center;
         transition: all 0.3s ease;
         cursor: pointer;
@@ -21,7 +21,7 @@ st.markdown("""
     .card:hover {
         transform: scale(1.05);
         background-color: #E8F0FE;
-        box-shadow: 8px 8px 30px rgba(0, 0, 0, 0.2);
+        box-shadow: 6px 6px 25px rgba(0, 0, 0, 0.2);
     }
     h1 {
         text-align: center;
@@ -41,11 +41,11 @@ st.markdown("""
 # --- Titel ---
 st.markdown("<h1>🔬 Willkommen im Labor-Portal 🔬</h1>", unsafe_allow_html=True)
 
-# --- Drei Karten nebeneinander ---
-col1, col2, col3 = st.columns(3)
+# --- Vier Karten nebeneinander ---
+col1, col2, col3, col4 = st.columns(4)
 
 with col1:
-    if st.button("🧪 Allgemeine Regeln im Labor", use_container_width=True):
+    if st.button("🧪 Regeln im Labor", use_container_width=True):
         st.switch_page("pages/2_Laborsicherheit.py")
 
 with col2:
@@ -56,11 +56,16 @@ with col3:
     if st.button("📊 Statistik", use_container_width=True):
         st.switch_page("pages/4_Statistik der Checkliste.py")
 
+with col4:
+    if st.button("🧬 Eingehende Proben", use_container_width=True):
+        st.switch_page("pages/5_Eingehende Proben.py")
+
 # --- Notfallleiste ---
 from utils.helpers import zeige_notfallleiste
 zeige_notfallleiste()
 from utils.helpers import set_vollbild_hintergrund_url
 
 set_vollbild_hintergrund_url("https://d2jx2rerrg6sh3.cloudfront.net/images/appnotes/ImageForAppNote_5166_17219167727185418.jpg")
+
 
         
