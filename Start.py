@@ -8,7 +8,7 @@ from utils.login_manager import LoginManager
 st.set_page_config(page_title="Labor App Login", layout="wide")
 
 # ===== Initialisierung von DataManager und LoginManager =====
-data_manager = DataManager(fs_protocol='webdav', fs_root_folder="Lab_Safety")
+data_manager = DataManager(fs_protocol='webdav', fs_root_folder="Safelab")
 login_manager = LoginManager(data_manager)
 
 # ===== Login anzeigen (bei Bedarf) =====
