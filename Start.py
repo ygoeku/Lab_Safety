@@ -43,3 +43,11 @@ if os.path.exists(korrekter_pfad):
     st.success(f"✅ Logbuch gefunden: {korrekter_pfad}")
 else:
     st.error(f"❌ Logbuch nicht gefunden unter: {korrekter_pfad}")
+
+if "webdav" in st.secrets:
+    st.success("✅ WebDAV-Konfiguration aus secrets geladen.")
+    st.json(st.secrets["webdav"])  # Nur für Debug – später entfernen
+else:
+    st.error("❌ WebDAV-Zugang nicht gefunden in secrets.toml.")
+
+st.caption(f"📁 Aktives Dateisystem: {type(data_manager.fs)}")

@@ -134,7 +134,7 @@ else:
             df_zeit["Bemerkung"] = df_zeit["Bemerkung"].fillna("-")
 
             def create_status(row):
-                if row["Bemerkung"].strip() != "-":
+                if str(row["Bemerkung"]).strip() != "-":
                     return f"Needs review – {row['Uhrzeit']}"
                 elif row["Datum"] == datetime.date.today():
                     return f"New – {row['Uhrzeit']}"
@@ -142,6 +142,9 @@ else:
                     return f"Success – {row['Uhrzeit']}"
 
             df_zeit["Status"] = df_zeit.apply(create_status, axis=1)
+            df_zeit = df_zeit.sort_values(by=["Name", "Frage", "Uhrzeit"])
+            df_zeit["Bemerkung"] = df_zeit["Bemerkung"].fillna("-")
+            
             st.dataframe(
                 df_zeit[["Name", "Frage", "Antwort", "Bemerkung", "Status"]],
                 use_container_width=True

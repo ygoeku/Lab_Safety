@@ -181,3 +181,5 @@ st.markdown("""
         🚨 Notfallnummern: ZHAW 7070 | Ambulanz 144 | Polizei 117 | Feuerwehr 118 | REGA 1414 | Toxinfo 145
     </div>
 """, unsafe_allow_html=True)
+
+st.caption(f"📄 Aktive Datei: {data_manager.data_reg['logbuch_df']}")
