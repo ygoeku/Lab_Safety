@@ -2,30 +2,38 @@ import streamlit as st
 import pandas as pd
 import datetime
 
-st.set_page_config(page_title="Labor-Checkliste", layout="wide")
-
 from utils.data_manager import DataManager
 from utils.login_manager import LoginManager
 from utils.helpers import set_vollbild_hintergrund_url
+
+st.set_page_config(page_title="Labor-Checkliste", layout="wide")
 
 # ===== Init =====
 data_manager = DataManager(fs_protocol='webdav', fs_root_folder="Lab_Safety")
 login_manager = LoginManager(data_manager)
 
-# Lade persistent gespeicherte Checklisten-Daten
-data_manager.load_user_data(
-    session_state_key='data_df', 
-    file_name='data.csv', 
+# Lade zentrale Datei logbuch.csv
+dh = data_manager._get_data_handler()
+logbuch_df = dh.load(
+    "logbuch.csv",
     initial_value=pd.DataFrame(columns=["Name", "Datum", "Uhrzeit", "Zeitpunkt", "Frage", "Antwort", "Bemerkung"]),
-    parse_dates=["timestamp"]
+    parse_dates=["Datum"]
 )
-data_df = st.session_state["data_df"]
+st.session_state["logbuch_df"] = logbuch_df
+data_manager.app_data_reg["logbuch_df"] = "logbuch.csv"
 
 # ===== Login prüfen =====
 username = st.session_state.get("user") or st.session_state.get("username")
 if not username:
     st.error("⛔ Bitte zuerst auf der Startseite einloggen.")
     st.stop()
+
+# ===== UI =====
+st.title("🔬 Labor-Checkliste")
+st.markdown(f"**Eingeloggt als:** {username}")
+st.markdown("Bitte füllen Sie die Checkliste vor und nach der Arbeit im Labor aus.")
+
+set_vollbild_hintergrund_url("https://www.kantar.com/-/media/project/kantar/global/articles/images/2022/how-to-create-a-questionnaire.jpg?h=614&iar=0&w=900&hash=C22436F9487A6B98889BDB3623FD6C84")
 
 # ===== Fragen =====
 aufgaben_vor = [
@@ -44,22 +52,15 @@ aufgaben_nach = [
     "Laborkittel ausgezogen?", "Evtl. Schutzbrille und Schutzmaske ausgezogen?", "Hände gründlich gewaschen/desinfiziert?"
 ]
 
-# ===== UI =====
-st.title("🔬 Labor-Checkliste")
-st.markdown(f"**Eingeloggt als:** {username}")
-st.markdown("Bitte füllen Sie die Checkliste vor und nach der Arbeit im Labor aus.")
-
-set_vollbild_hintergrund_url("https://www.kantar.com/-/media/project/kantar/global/articles/images/2022/how-to-create-a-questionnaire.jpg?h=614&iar=0&w=900&hash=C22436F9487A6B98889BDB3623FD6C84")
-
+# ===== Funktionen =====
 today_str = datetime.date.today().isoformat()
 now_str = datetime.datetime.now().strftime("%H:%M:%S")
 
-# ===== Hilfsfunktionen =====
 def load_existing_answers(zeitpunkt):
-    return data_df[
-        (data_df["Name"] == username) &
-        (data_df["Datum"] == today_str) &
-        (data_df["Zeitpunkt"] == zeitpunkt)
+    return st.session_state["logbuch_df"][
+        (st.session_state["logbuch_df"]["Name"] == username) &
+        (st.session_state["logbuch_df"]["Datum"] == datetime.date.today()) &
+        (st.session_state["logbuch_df"]["Zeitpunkt"] == zeitpunkt)
     ].drop_duplicates(subset=["Frage"], keep="last")
 
 def render_checklist(tasks, key, zeitpunkt):
@@ -80,7 +81,7 @@ def render_checklist(tasks, key, zeitpunkt):
     df = pd.DataFrame(answers, columns=["Frage", "Ja", "Nein", "Teilweise", "Bemerkung"])
     return st.data_editor(df, num_rows="fixed", use_container_width=True, key=key)
 
-# ===== Checklisten anzeigen =====
+# ===== Anzeige =====
 st.markdown("### 🧪 Vor der Arbeit")
 df_vor = render_checklist(aufgaben_vor, "check_vor", "vorher")
 
@@ -89,51 +90,49 @@ df_nach = render_checklist(aufgaben_nach, "check_nach", "nachher")
 
 # ===== Speichern =====
 if st.button("💾 Checkliste speichern"):
-    new_rows = []
+    rows = []
 
-    def extract_data(df_input, zeitpunkt):
+    def extract_rows(df_input, zeitpunkt):
         for _, row in df_input.iterrows():
-            frage = row["Frage"]
-            bemerkung = row["Bemerkung"]
             antwort = "Ja" if row["Ja"] else "Nein" if row["Nein"] else "Teilweise" if row["Teilweise"] else ""
             if antwort:
-                new_rows.append({
+                rows.append({
                     "Name": username,
                     "Datum": today_str,
                     "Uhrzeit": now_str,
                     "Zeitpunkt": zeitpunkt,
-                    "Frage": frage,
+                    "Frage": row["Frage"],
                     "Antwort": antwort,
-                    "Bemerkung": bemerkung,
+                    "Bemerkung": row["Bemerkung"],
                     "timestamp": datetime.datetime.now()
                 })
 
-    extract_data(df_vor, "vorher")
-    extract_data(df_nach, "nachher")
+    extract_rows(df_vor, "vorher")
+    extract_rows(df_nach, "nachher")
 
-    for entry in new_rows:
-        data_manager.append_record(session_state_key='data_df', record_dict=entry)
+    for entry in rows:
+        data_manager.append_record("logbuch_df", entry)
 
-    st.success("✅ Antworten gespeichert!")
-    st.dataframe(pd.DataFrame(new_rows), use_container_width=True)
+    st.success("✅ In logbuch.csv gespeichert!")
+    st.dataframe(pd.DataFrame(rows), use_container_width=True)
 
 # ===== Filterbereich =====
 st.markdown("---")
 st.markdown("## 🔍 Gespeicherte Checklisten durchsuchen")
 
 filter_datum = st.date_input("Datum auswählen", datetime.date.today())
-alle_namen = sorted(set(data_df["Name"].unique()))
+alle_namen = sorted(set(st.session_state["logbuch_df"]["Name"].unique()))
 filter_name = st.selectbox("Benutzer auswählen", options=["Alle"] + alle_namen)
 
-# Daten filtern
-data_df["Datum"] = pd.to_datetime(data_df["Datum"]).dt.date
-df_filtered = data_df[data_df["Datum"] == filter_datum]
+df_filtered = st.session_state["logbuch_df"]
+df_filtered["Datum"] = pd.to_datetime(df_filtered["Datum"]).dt.date
+df_filtered = df_filtered[df_filtered["Datum"] == filter_datum]
 
 if filter_name != "Alle":
     df_filtered = df_filtered[df_filtered["Name"] == filter_name]
 
 if df_filtered.empty:
-    st.info("Keine Daten für den ausgewählten Tag oder Benutzer.")
+    st.info("Keine Checklisten für dieses Datum gefunden.")
 else:
     for zeitpunkt in ["vorher", "nachher"]:
         df_zeit = df_filtered[df_filtered["Zeitpunkt"] == zeitpunkt]

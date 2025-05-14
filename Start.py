@@ -30,3 +30,4 @@ Sie ersetzt jedoch keine offizielle Sicherheitsunterweisung oder persönliche Sc
 """)
 
 st.write("Diese App wurde von Yasemin Gökuguz und Elena Avkova im Rahmen des Moduls **'BMLD Informatik 2'** an der ZHAW entwickelt.")
+
