@@ -31,28 +31,15 @@ Sie ersetzt jedoch keine offizielle Sicherheitsunterweisung oder persönliche Sc
 
 st.write("Diese App wurde von Yasemin Gökuguz und Elena Avkova im Rahmen des Moduls **'BMLD Informatik 2'** an der ZHAW entwickelt.")
 
-# Start.py
-import streamlit as st
 import os
+import streamlit as st
 
-# Automatische Pfaderkennung
-def finde_logbuch_pfad():
-    moegliche_pfade = [
-        os.path.expanduser("~/SwitchDrive/Lab_Safety/logbuch.csv"),
-        os.path.expanduser("~/SwitchDrive/Lab_Safety (2)/logbuch.csv"),
-        os.path.expanduser("~/SwitchDrive/Lab_Safety_Shared/logbuch.csv"),
-    ]
-    for pfad in moegliche_pfade:
-        if os.path.exists(pfad):
-            return pfad
-    return None
+# Dein korrekter, vollständiger Pfad
+korrekter_pfad = r"C:\Users\elena\OneDrive - ZHAW\Informatik 2\Lab_Safety\logbuch.csv"
 
-# Ergebnis speichern
-if "logbuch_pfad" not in st.session_state:
-    st.session_state["logbuch_pfad"] = finde_logbuch_pfad()
-
-# Benutzerinfo
-if st.session_state["logbuch_pfad"]:
-    st.info(f"Aktive Logbuch-Datei: {st.session_state['logbuch_pfad']}")
+# Sicher prüfen
+if os.path.exists(korrekter_pfad):
+    st.session_state["logbuch_pfad"] = korrekter_pfad
+    st.success(f"✅ Logbuch gefunden: {korrekter_pfad}")
 else:
-    st.error("Keine Logbuch-Datei gefunden.")
+    st.error(f"❌ Logbuch nicht gefunden unter: {korrekter_pfad}")
