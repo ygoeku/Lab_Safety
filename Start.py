@@ -13,6 +13,12 @@ login_manager = LoginManager(data_manager)
 # ===== Login anzeigen (bei Bedarf) =====
 login_manager.login_register()
 
+username = st.session_state.get("username")
+if username:
+    st.success(f"✅ Eingeloggt als: {username}")
+else:
+    st.warning("⚠️ Noch nicht eingeloggt – bitte Anmeldemaske verwenden.")
+
 # ===== Zugriff blockieren, wenn nicht eingeloggt =====
 if "username" not in st.session_state and "user" not in st.session_state:
     st.stop()
@@ -51,3 +57,5 @@ else:
     st.error("❌ WebDAV-Zugang nicht gefunden in secrets.toml.")
 
 st.caption(f"📁 Aktives Dateisystem: {type(data_manager.fs)}")
+
+st.caption(f"📄 credentials.yaml wird verwendet unter: {data_manager.fs_root_folder}/credentials.yaml")
