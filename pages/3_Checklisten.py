@@ -9,7 +9,7 @@ from utils.login_manager import LoginManager
 from utils.helpers import set_vollbild_hintergrund_url
 
 # ===== Init Block =====
-data_manager = DataManager(fs_protocol='webdav', fs_root_folder="Lab_Safety")
+data_manager = DataManager(fs_protocol='webdav', fs_root_folder="Safelab")
 login_manager = LoginManager(data_manager)
 
 dh = data_manager._get_data_handler()
