@@ -45,7 +45,7 @@ class DataManager:
             st.session_state.data_manager = instance
             return instance
     
-    def __init__(self, fs_protocol = 'file', fs_root_folder = 'Lab_Safety'):
+    def __init__(self, fs_protocol = 'file', fs_root_folder = 'Safelab'):
         """
         Initialize the data manager with filesystem configuration.
         Sets up the filesystem interface and initializes data registries for the application.
