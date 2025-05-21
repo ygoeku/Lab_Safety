@@ -11,20 +11,6 @@ st.set_page_config(page_title="Labor App Login", layout="wide")
 data_manager = DataManager(fs_protocol='webdav', fs_root_folder="Safelab")
 login_manager = LoginManager(data_manager)
 
-# ===== Login anzeigen (bei Bedarf) =====
-login_manager.login_register()
-
-# ===== Login-Zustand anzeigen =====
-username = st.session_state.get("username")
-if username:
-    st.success(f"✅ Eingeloggt als: {username}")
-else:
-    st.warning("⚠️ Noch nicht eingeloggt – bitte Anmeldemaske verwenden.")
-
-# ===== Zugriff blockieren, wenn nicht eingeloggt =====
-if "username" not in st.session_state and "user" not in st.session_state:
-    st.stop()
-
 # ===== Begrüßung nach Login =====
 name = st.session_state.get("name", "Nutzer")
 
