@@ -19,11 +19,16 @@ class DataHandler:
 
     def read_text(self, relative_path):
         """
-        Read the contents of a text file using latin1 encoding (fast & Windows/macOS safe).
+        Read the contents of a text file.
+        Tries UTF-8 first; if that fails, falls back to latin1.
         """
         full_path = self._resolve_path(relative_path)
-        with self.filesystem.open(full_path, "r", encoding="latin1") as f:
-            return f.read()
+        try:
+            with self.filesystem.open(full_path, "r", encoding="utf-8") as f:
+                return f.read()
+        except UnicodeDecodeError:
+            with self.filesystem.open(full_path, "r", encoding="latin1") as f:
+                return f.read()
 
     def read_binary(self, relative_path):
         full_path = self._resolve_path(relative_path)
