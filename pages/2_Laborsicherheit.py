@@ -58,7 +58,7 @@ with col9:
 with col10:
     bild_mit_info("Feuer.png", "Kennzeichnet leicht entzündliche Stoffe, die sich bei Kontakt mit Luft, Hitze oder Funken schnell entzünden können.", "feuer")
 with col11:
-    bild_mit_info("Biogefährdung.png", "Warnt vor biologischen Gefahren wie Viren, Bakterien oder anderen Mikroorganismen, die Krankheiten verursachen können.", "bio")
+    bild_mit_info("Biogefahr.png", "Warnt vor biologischen Gefahren wie Viren, Bakterien oder anderen Mikroorganismen, die Krankheiten verursachen können.", "bio")
 with col12:
     bild_mit_info("Vorsicht.png", "Dieses Symbol weist auf eine allgemeine Gefahrenquelle hin. Zusätzliche Hinweise beachten!", "vorsicht")
 
