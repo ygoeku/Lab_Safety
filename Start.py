@@ -11,6 +11,10 @@ st.set_page_config(page_title="Labor App Login", layout="wide")
 data_manager = DataManager(fs_protocol='webdav', fs_root_folder="Safelab")
 login_manager = LoginManager(data_manager)
 
+# ===== Login anzeigen (bei Bedarf) =====
+login_manager.login_register()
+
+
 # ===== Begrüßung nach Login =====
 name = st.session_state.get("name", "Nutzer")
 
