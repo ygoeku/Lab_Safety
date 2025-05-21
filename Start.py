@@ -28,7 +28,7 @@ if "username" not in st.session_state and "user" not in st.session_state:
 # ===== Begrüßung nach Login =====
 name = st.session_state.get("name", "Nutzer")
 
-st.title("Lab_Safety")
+st.title("Safelab")
 st.markdown(f"✨ Hallo **{name}**! Willkommen im Labor-Portal. ✨")
 st.markdown("🧪 Diese Anwendung hilft Ihnen, Sicherheits- und Hygienestandards im Labor einzuhalten und Aufgaben strukturiert zu dokumentieren.")
 
