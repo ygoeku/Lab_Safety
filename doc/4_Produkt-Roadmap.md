@@ -12,9 +12,9 @@
 *Ziel:* Benutzerfreundlichkeit steigern und Funktionen für Zusammenarbeit integrieren.
 
 ### **Version 2.0 (Woche 10-12)**  
-- **Visuelles Feedback bei erledigten Aufgaben:** Farbcodierung für erledigte Aufgaben
 - **Mehrere Nutzer:innen:** Alle Teammitglieder können Aufgaben gemeinsam abkreuzen und die App im Team nutzen
 - **Verlaufshistorie:** Zeigt an, wann Aufgaben erledigt wurden, z. B. „Arbeitsplatz aufgeräumt: 12. Mai 2025“
+- **Automatischer Status „new“:** Wenn bei einem Checklistenpunkt „Ja“ oder „Nein“ gedrückt wurde, erscheint automatisch der Hinweis „new“, um anzuzeigen, dass eine Änderung oder neue Bearbeitung stattgefunden hat. 
 ---
 
 
@@ -22,9 +22,8 @@
 *Ziel:* Erweiterung der App um Nachverfolgbarkeit und Erinnerungsfunktionen.
 
 ### **Version 3.0 (Später)**  
-- **Push-Benachrichtigungen:** Erinnerungen, wenn Aufgaben nicht rechtzeitig erledigt wurden
-- **Reminder-Funktion:** Täglicher Reset der Checkliste für neue Aufgaben
-
+- **Needs Review-Status:** Wenn eine Checkliste nicht vollständig ausgefüllt wurde, erscheint automatisch der Hinweis „Needs Review“, um unvollständige Aufgaben zu kennzeichnen
+- **Reminder-Funktion:** Täglicher Reset der Checkliste für den neuen Tag
 ---
 
 ## Roadmap Zusammenfassung
