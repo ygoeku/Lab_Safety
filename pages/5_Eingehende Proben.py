@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="Präanalytik-Pfad", layout="wide")
 
-st.title("🧭 Interaktive Präanalytik-Anleitung")
+st.title("🧭 Präanalytik-Anleitung")
 
 st.markdown("Dieser Pfad hilft dir, Schritt für Schritt zu prüfen, ob eine Probe weiterverarbeitet werden darf.")
 
