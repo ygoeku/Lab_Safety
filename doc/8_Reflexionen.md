@@ -12,7 +12,7 @@
 - Die Möglichkeit, direkt visuelles Feedback zu erhalten, hat die App verbessert.
 
 ### Zusammenarbeit & Prozess
-- Die klare Aufgabenverteilung im Team (z. B. Code, Test, Design, Dokumentation) war eine große Stärke.
+- Die klare Aufgabenverteilung im Team (z. B. Code, Test, Design, Dokumentation) war eine grosse Stärke.
 - Die kontinuierliche Dokumentation über GitHub und Moodle hat uns geholfen, strukturiert und versioniert zu arbeiten.
 - Die Arbeit im Team war motivierend – es war schön zu sehen, wie sich aus einer Idee eine funktionierende App entwickelt hat.
 
