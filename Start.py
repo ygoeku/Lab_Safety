@@ -15,7 +15,7 @@ login_manager = LoginManager(data_manager)
 login_manager.login_register()
 
 
-# ===== Begrüßung nach Login =====
+# ===== Begrüssung nach Login =====
 name = st.session_state.get("name", "Nutzer")
 
 st.title("Safelab")

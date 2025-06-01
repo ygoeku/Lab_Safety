@@ -44,3 +44,7 @@ from utils.helpers import set_vollbild_hintergrund_url  # falls du eine helpers.
 # Falls du keine helpers.py hast, einfach Funktion direkt reinkopieren (siehe oben)
 
 set_vollbild_hintergrund_url("https://cardinalhealth.scene7.com/is/image/corpmarketdms7prod/article-featured-2LAB22-2109113-simplifying-specimen-collection-59194963_l")
+
+# --- Notfallleiste ---
+from utils.helpers import zeige_notfallleiste
+zeige_notfallleiste()

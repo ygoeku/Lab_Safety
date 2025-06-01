@@ -1,14 +1,14 @@
 ## 🧠 Learnings aus dem Projekt
 
 ### Technisch
-- Eine große Herausforderung war das **gleichzeitige Speichern von Checklisten durch mehrere Nutzer**.  
+- Eine grosse Herausforderung war das **gleichzeitige Speichern von Checklisten durch mehrere Nutzer**.  
   Hier musste sorgfältig darauf geachtet werden, dass die zentral gespeicherte Datei (`logbuch.csv`) bei gleichzeitigen Zugriffen nicht überschrieben oder beschädigt wird.
 - Die Nutzung von **WebDAV in Kombination mit Streamlit** war technisch anspruchsvoll, aber funktionierte nach Anpassungen zuverlässig.
 - Durch gezielte Nutzung von **Benutzerzuordnung und eindeutiger Speicherung** konnten wir Mehrnutzerzugriffe sinnvoll abbilden.
 
 ### Gestaltung 
-- Es hat **Spaß gemacht, das Layout zu gestalten** und verschiedene Funktionen (z. B. Login, Zeitspeicherung, Verlauf, Checkliste) miteinander zu kombinieren.
-- Wir haben gelernt, wie wichtig **Konsistenz und Klickführung** für Nutzer*innen sind – kleine Details haben einen großen Einfluss auf die Nutzbarkeit.
+- Es hat **Spass gemacht, das Layout zu gestalten** und verschiedene Funktionen (z. B. Login, Zeitspeicherung, Verlauf, Checkliste) miteinander zu kombinieren.
+- Wir haben gelernt, wie wichtig **Konsistenz und Klickführung** für Nutzer*innen sind – kleine Details haben einen grossen Einfluss auf die Nutzbarkeit.
 - Die Möglichkeit, direkt visuelles Feedback zu erhalten, hat die App verbessert.
 
 ### Zusammenarbeit & Prozess
