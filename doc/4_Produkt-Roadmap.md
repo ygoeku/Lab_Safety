@@ -31,7 +31,7 @@
 | Version  | Funktionen                                                        | Geplanter Zeitraum |
 |----------|-------------------------------------------------------------------|--------------------|
 | **1.0**  | Startseite mit Icons, Checkliste                                  | Woche 9            |
-| **2.0**  | Visuelles Feedback, Verlaufshistorie, mehrere Nutzer:innen        | Woche 10-12        |
-| **3.0**  | Reminder-Funktion, Push-Benachrichtigungen                        | Später             |
+| **2.0**  |  Verlaufshistorie, mehrere Nutzer:innen ,   Automatischer Status „new“     | Woche 10-12        |
+| **3.0**  | Needs Review-Status, Reminder-Funktion                       | Später             |
 
 ---
